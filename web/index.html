@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>UK Tick Tracker</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+
+<body>
+  <h1>UK Tick Tracker</h1>
+  <p id="status">Loading...</p>
+  <div id="map" style="height: 500px;"></div>
+
+  <script>
+    const map = L.map("map").setView([54.5, -3], 6);
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: "&copy; OpenStreetMap"
+    }).addTo(map);
+
+    const API = "https://dev-task.elancoapps.com/data/tick-sightings";
+
+    fetch(API)
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById("status").textContent = "Loaded " + data.length + " sightings";
+      });
+  </script>
+</body>
+
+</html>
