@@ -5,6 +5,7 @@ const path = require("node:path");
 
 const sampleRecords = require("../fixtures/sample-sightings.json");
 const { createApp } = require("../../src/app");
+const { createReportRepository } = require("../../src/reports/repository");
 const { createSightingStore } = require("../../src/sightings/store");
 const { createTestLogger } = require("./logger");
 
@@ -29,9 +30,15 @@ async function listen(app) {
  * Starts the real app on a random free port, backed by a real sightings
  * store whose "Elanco" is a fixture, so tests never touch the network.
  * dataStatus picks the store's state: "ready", "loading" or "unavailable".
- * Passing a store replaces the real one entirely.
+ * Passing a store replaces the real one entirely. Reports are stored in a
+ * temporary folder that is deleted on close.
  */
-async function startTestApp({ dataStatus = "ready", records = sampleRecords, store } = {}) {
+async function startTestApp({
+  dataStatus = "ready",
+  records = sampleRecords,
+  store,
+  reportRateLimit = { limit: 1000, windowMs: 60_000 },
+} = {}) {
   const directory = await fs.mkdtemp(path.join(os.tmpdir(), "tick-api-"));
   const { logger, messages } = createTestLogger();
   if (!store) {
@@ -45,15 +52,25 @@ async function startTestApp({ dataStatus = "ready", records = sampleRecords, sto
     }
   }
 
-  const server = await listen(createApp({ store, logger, webDir: WEB_DIR }));
+  const reports = await createReportRepository({
+    filePath: path.join(directory, "reports.json"),
+    uploadsDir: path.join(directory, "uploads"),
+    logger,
+  });
+
+  const server = await listen(
+    createApp({ store, reports, reportRateLimit, logger, webDir: WEB_DIR }),
+  );
   const baseUrl = `http://127.0.0.1:${server.address().port}`;
 
   return {
     baseUrl,
     store,
+    reports,
     messages,
     directory,
     get: (urlPath) => fetch(`${baseUrl}${urlPath}`),
+    post: (urlPath, options) => fetch(`${baseUrl}${urlPath}`, { method: "POST", ...options }),
     async close() {
       server.closeAllConnections();
       await new Promise((resolve) => server.close(resolve));

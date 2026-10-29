@@ -22,6 +22,28 @@ describe("GET /api/meta", () => {
     assert.deepEqual(body.data.dateRange, { earliest: "2022-01-03", latest: "2024-12-30" });
   });
 
+  it("shares the severity rule and the report rules with the page", async () => {
+    const app = await startTestApp();
+    const body = await (await app.get("/api/meta")).json();
+    await app.close();
+
+    assert.deepEqual(body.severityRule, {
+      halfLifeDays: 365,
+      highAtOrAbove: 1.25,
+      lowAtOrBelow: 0.75,
+      recentDays: 30,
+    });
+    assert.deepEqual(body.reportRules, {
+      earliestDate: "2000-01-01",
+      maxNotesLength: 500,
+      maxPhotoBytes: 5242880,
+      maxPhotoDimension: 8000,
+      photoTypes: ["image/jpeg", "image/png"],
+      oldSightingDays: 365,
+      futureToleranceMinutes: 5,
+    });
+  });
+
   it("still works while the data is loading, so the page can build its controls", async () => {
     const app = await startTestApp({ dataStatus: "loading" });
     const response = await app.get("/api/meta");

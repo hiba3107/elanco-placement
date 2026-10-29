@@ -5,6 +5,7 @@ const { validationError } = require("../errors");
 
 const QUERY_PARSERS = Object.freeze({
   filters: { keys: FILTER_KEYS, parse: parseSightingFilters },
+  reportFilters: { keys: ["from", "to", "location", "species"], parse: parseSightingFilters },
   pagination: { keys: ["page", "pageSize"], parse: parsePagination },
   sort: { keys: ["sort"], parse: parseSort },
   interval: { keys: ["interval"], parse: parseInterval },

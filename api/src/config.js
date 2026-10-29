@@ -32,6 +32,10 @@ function loadConfig(env = process.env) {
     logLevel: readLogLevel(env),
     dataDir: path.resolve(env.DATA_DIR || path.join(API_ROOT, "data")),
     webDir: path.resolve(API_ROOT, "..", "web"),
+    reports: Object.freeze({
+      rateLimit: readWholeNumber(env, "REPORT_RATE_LIMIT", 10, { min: 1 }),
+      rateWindowMinutes: readWholeNumber(env, "REPORT_RATE_WINDOW_MINUTES", 15, { min: 1 }),
+    }),
     elanco: Object.freeze({
       url: env.ELANCO_API_URL || "https://dev-task.elancoapps.com/data/tick-sightings",
       timeoutMs: readWholeNumber(env, "ELANCO_TIMEOUT_MS", 10_000, { min: 1 }),

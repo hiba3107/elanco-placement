@@ -6,11 +6,12 @@ const { securityHeaders } = require("./middleware/securityHeaders");
 const { createHealthRouter } = require("./routes/health");
 const { createInsightsRouter } = require("./routes/insights");
 const { createMetaRouter } = require("./routes/meta");
+const { createReportsRouter } = require("./routes/reports");
 const { createSightingsRouter } = require("./routes/sightings");
 
 // Builds the app without starting it, so tests can create one with fake
 // dependencies and server.js can create the real one.
-function createApp({ store, logger, webDir }) {
+function createApp({ store, reports, reportRateLimit, logger, webDir }) {
   const app = express();
   app.disable("x-powered-by");
   app.use(securityHeaders);
@@ -19,6 +20,7 @@ function createApp({ store, logger, webDir }) {
   app.use("/api", createMetaRouter({ store }));
   app.use("/api", createSightingsRouter({ store }));
   app.use("/api", createInsightsRouter({ store }));
+  app.use("/api", createReportsRouter({ reports, rateLimit: reportRateLimit }));
   app.use("/api", apiNotFound);
 
   // The page is served from the same origin as the API, so the browser needs

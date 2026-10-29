@@ -59,3 +59,14 @@ describe("loadConfig data settings", () => {
     assert.throws(() => loadConfig({ ELANCO_TIMEOUT_MS: "0" }), /at least 1/);
   });
 });
+
+describe("loadConfig report settings", () => {
+  it("limits reports to 10 per 15 minutes by default", () => {
+    assert.deepEqual(loadConfig({}).reports, { rateLimit: 10, rateWindowMinutes: 15 });
+  });
+
+  it("reads the limit from the environment and rejects zero", () => {
+    assert.equal(loadConfig({ REPORT_RATE_LIMIT: "3" }).reports.rateLimit, 3);
+    assert.throws(() => loadConfig({ REPORT_RATE_LIMIT: "0" }), /at least 1/);
+  });
+});
