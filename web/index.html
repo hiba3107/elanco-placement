@@ -1,30 +1,670 @@
 <!doctype html>
-<html>
+<html lang="en-GB">
   <head>
     <meta charset="utf-8" />
-    <title>UK Tick Tracker</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tick Tracker: UK tick sightings</title>
+    <meta
+      name="description"
+      content="Map, trends and seasonal patterns of tick sightings across 14 UK cities, with a species guide, prevention tips and a form to report a sighting."
+    />
+    <meta name="theme-color" content="#1c5cab" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+    <script
+      src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.3/dist/index.global.js"
+      integrity="sha384-2ql948lIdLcGEE0/qxNiudyTjgauA3RDJERu5xW75kFCvSl5a9odyQYCb6tEjnmB"
+      crossorigin="anonymous"
+    ></script>
+    <style type="text/tailwindcss">
+      @theme {
+        --font-sans:
+          system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        --color-page: var(--page);
+        --color-surface: var(--surface);
+        --color-line: var(--line);
+        --color-line-strong: var(--line-strong);
+        --color-ink: var(--ink);
+        --color-ink-soft: var(--ink-soft);
+        --color-ink-muted: var(--ink-muted);
+        --color-accent: var(--accent);
+        --color-accent-strong: var(--accent-strong);
+        --color-accent-soft: var(--accent-soft);
+        --color-focus: var(--focus);
+        --color-error: var(--error);
+        --color-error-soft: var(--error-soft);
+        --color-warning: var(--warning);
+        --color-warning-soft: var(--warning-soft);
+        --color-success: var(--success);
+        --color-success-soft: var(--success-soft);
+      }
+
+      @layer components {
+        .card {
+          @apply rounded-xl border border-line bg-surface p-5 sm:p-6;
+        }
+        .section-title {
+          @apply text-2xl font-semibold tracking-tight text-ink sm:text-3xl;
+        }
+        .section-intro {
+          @apply mt-2 max-w-3xl text-ink-soft;
+        }
+        .card-title {
+          @apply text-lg font-semibold text-ink;
+        }
+        .btn-primary {
+          @apply inline-flex items-center justify-center gap-2 rounded-lg bg-accent px-4 py-2.5 text-sm font-semibold text-white hover:bg-accent-strong disabled:cursor-not-allowed disabled:opacity-60;
+        }
+        .btn-secondary {
+          @apply inline-flex items-center justify-center gap-2 rounded-lg border border-line-strong bg-surface px-4 py-2.5 text-sm font-semibold text-ink hover:bg-page disabled:cursor-not-allowed disabled:opacity-60;
+        }
+        .btn-small {
+          @apply inline-flex items-center gap-1.5 rounded-md border border-line-strong bg-surface px-2.5 py-1.5 text-sm font-medium text-ink hover:bg-page;
+        }
+        .field-label {
+          @apply block text-sm font-semibold text-ink;
+        }
+        .field-hint {
+          @apply mt-1 text-sm text-ink-muted;
+        }
+        .field-input {
+          @apply mt-1.5 block w-full rounded-lg border border-line-strong bg-surface px-3 py-2 text-base text-ink sm:text-sm;
+        }
+        .text-link {
+          @apply font-medium text-accent underline underline-offset-2 hover:text-accent-strong;
+        }
+        .nav-link {
+          @apply block rounded-md px-3 py-2 text-sm font-medium text-ink-soft hover:bg-page hover:text-ink;
+        }
+        .choice-chip {
+          @apply flex cursor-pointer items-center gap-2 rounded-lg border border-line-strong bg-surface px-3 py-2 text-sm has-[:checked]:border-accent has-[:checked]:bg-accent-soft;
+        }
+      }
+    </style>
+
+    <script src="js/preflight.js"></script>
+    <script
+      defer
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"
+      integrity="sha384-jb8JQMbMoBUzgWatfe6COACi2ljcDdZQ2OxczGA3bGNeWe+6DChMTBJemed7ZnvJ"
+      crossorigin="anonymous"
+    ></script>
+    <script type="module" src="js/main.js"></script>
   </head>
 
-  <body>
-    <h1>UK Tick Tracker</h1>
-    <p id="status">Loading...</p>
-    <div id="map" style="height: 500px"></div>
+  <body class="bg-page font-sans text-ink antialiased">
+    <a class="skip-link" href="#main">Skip to main content</a>
 
-    <script>
-      const map = L.map("map").setView([54.5, -3], 6);
-      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: "&copy; OpenStreetMap",
-      }).addTo(map);
+    <header class="border-b border-line bg-surface">
+      <div class="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3 sm:px-6 lg:px-8">
+        <a href="#overview" class="mr-auto flex items-center gap-3 rounded-md">
+          <img src="favicon.svg" alt="" class="h-9 w-9" width="36" height="36" />
+          <span>
+            <span class="block text-base font-semibold leading-tight">Tick Tracker</span>
+            <span class="block text-xs text-ink-muted">UK tick sightings</span>
+          </span>
+        </a>
+        <button
+          id="nav-toggle"
+          type="button"
+          class="btn-small lg:hidden"
+          aria-expanded="false"
+          aria-controls="site-nav"
+        >
+          Menu
+        </button>
+        <nav
+          id="site-nav"
+          aria-label="Page sections"
+          class="absolute inset-x-0 top-[61px] z-[1100] hidden border-b border-line bg-surface p-3 shadow-sm lg:static lg:block lg:border-0 lg:p-0 lg:shadow-none"
+        >
+          <ul class="flex flex-col gap-1 lg:flex-row lg:items-center">
+            <li><a class="nav-link" href="#map-section">Map</a></li>
+            <li><a class="nav-link" href="#trends">Trends</a></li>
+            <li><a class="nav-link" href="#seasons">Seasons</a></li>
+            <li><a class="nav-link" href="#species">Species guide</a></li>
+            <li><a class="nav-link" href="#prevention">Prevention</a></li>
+            <li><a class="nav-link" href="#about-data">About the data</a></li>
+            <li class="mt-2 lg:mt-0 lg:ml-2">
+              <a class="btn-primary w-full lg:w-auto" href="#report">Report a sighting</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
 
-      const API = "https://dev-task.elancoapps.com/data/tick-sightings";
+    <div id="data-banner" class="mx-auto max-w-7xl px-4 pt-4 sm:px-6 lg:px-8" hidden></div>
 
-      fetch(API)
-        .then((response) => response.json())
-        .then((data) => {
-          document.getElementById("status").textContent = "Loaded " + data.length + " sightings";
-        });
-    </script>
+    <noscript>
+      <p class="mx-auto mt-4 max-w-7xl rounded-lg bg-warning-soft px-4 py-3 text-warning">
+        Tick Tracker needs JavaScript for the map, charts and report form. The species guide and
+        prevention tips below still work without it.
+      </p>
+    </noscript>
+
+    <main id="main" tabindex="-1" class="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
+      <section id="overview" aria-labelledby="overview-title" class="pt-8 sm:pt-12">
+        <h1 id="overview-title" class="text-3xl font-semibold tracking-tight sm:text-4xl">
+          Tick sightings across the UK
+        </h1>
+        <p class="section-intro text-lg">
+          See where ticks have been recorded in Elanco's sightings data, which areas have the most
+          recent activity, and how to protect yourself and your pets.
+        </p>
+        <dl id="overview-stats" class="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4"></dl>
+      </section>
+
+      <section id="map-section" aria-labelledby="map-title" class="pt-12">
+        <div class="flex flex-wrap items-end justify-between gap-2">
+          <div>
+            <h2 id="map-title" class="section-title">Map of sightings</h2>
+            <p class="section-intro">
+              Each circle is a city. Choose a city on the map or in the list for its details.
+            </p>
+          </div>
+          <p id="filter-summary" class="text-sm text-ink-soft" aria-live="polite"></p>
+        </div>
+
+        <form id="filters" class="card mt-4 !p-4" aria-label="Filter sightings" novalidate>
+          <div class="flex flex-wrap items-end gap-x-4 gap-y-3">
+            <div>
+              <label for="filter-from" class="field-label">From</label>
+              <input id="filter-from" name="from" type="date" class="field-input w-40" />
+            </div>
+            <div>
+              <label for="filter-to" class="field-label">To</label>
+              <input id="filter-to" name="to" type="date" class="field-input w-40" />
+            </div>
+            <div
+              id="filter-presets"
+              role="group"
+              aria-label="Quick date ranges"
+              class="flex flex-wrap gap-1.5"
+            ></div>
+
+            <details id="filter-species" class="relative">
+              <summary class="btn-secondary cursor-pointer select-none">
+                <span id="filter-species-label">All species</span>
+                <span aria-hidden="true">▾</span>
+              </summary>
+              <fieldset
+                class="absolute left-0 z-[1050] mt-2 w-72 rounded-xl border border-line bg-surface p-3 shadow-lg"
+              >
+                <legend class="sr-only">Species</legend>
+                <div id="filter-species-options" class="flex flex-col gap-1.5"></div>
+              </fieldset>
+            </details>
+
+            <fieldset class="flex flex-wrap items-center gap-1.5">
+              <legend class="field-label mb-1.5">Severity</legend>
+              <label class="choice-chip">
+                <input type="checkbox" name="severity" value="high" class="accent-accent" />
+                <span class="swatch swatch--high" aria-hidden="true"></span> High
+              </label>
+              <label class="choice-chip">
+                <input type="checkbox" name="severity" value="medium" class="accent-accent" />
+                <span class="swatch swatch--medium" aria-hidden="true"></span> Medium
+              </label>
+              <label class="choice-chip">
+                <input type="checkbox" name="severity" value="low" class="accent-accent" />
+                <span class="swatch swatch--low" aria-hidden="true"></span> Low
+              </label>
+            </fieldset>
+
+            <button type="reset" class="btn-secondary ml-auto">Reset filters</button>
+          </div>
+          <p id="filter-error" class="mt-3 text-sm font-medium text-error" role="alert" hidden></p>
+        </form>
+
+        <div class="mt-4 grid gap-4 lg:grid-cols-3">
+          <div class="relative lg:col-span-2">
+            <div
+              id="map"
+              class="h-[55vh] min-h-[320px] overflow-hidden rounded-xl border border-line lg:h-[640px]"
+              role="region"
+              aria-label="Map of tick sightings by city"
+            ></div>
+            <div
+              id="map-status"
+              class="absolute inset-0 z-[1000] flex items-center justify-center rounded-xl bg-surface/80 p-6"
+              hidden
+            ></div>
+          </div>
+          <aside
+            id="city-sidebar"
+            aria-label="Cities"
+            class="card !p-0 lg:h-[640px] lg:overflow-y-auto"
+          >
+            <div id="city-list-view"></div>
+            <div id="city-panel" class="scroll-target" hidden></div>
+          </aside>
+        </div>
+        <p class="mt-3 text-sm text-ink-muted">
+          Severity compares each city's recent activity with the median city.
+          <a class="text-link" href="#how-severity-works">How severity is worked out</a>
+        </p>
+      </section>
+
+      <section id="trends" aria-labelledby="trends-title" class="pt-14">
+        <h2 id="trends-title" class="section-title">Trends</h2>
+        <p class="section-intro">These charts follow the map filters above.</p>
+        <div class="mt-4 grid gap-4 lg:grid-cols-2">
+          <article class="card" aria-labelledby="trend-title">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <h3 id="trend-title" class="card-title">Sightings over time</h3>
+              <fieldset class="flex gap-1.5">
+                <legend class="sr-only">Group sightings by</legend>
+                <label class="choice-chip">
+                  <input type="radio" name="trend-interval" value="week" class="sr-only" />
+                  Week
+                </label>
+                <label class="choice-chip">
+                  <input type="radio" name="trend-interval" value="month" class="sr-only" checked />
+                  Month
+                </label>
+                <label class="choice-chip">
+                  <input type="radio" name="trend-interval" value="year" class="sr-only" />
+                  Year
+                </label>
+              </fieldset>
+            </div>
+            <div id="trend-chart" class="mt-4"></div>
+          </article>
+
+          <article class="card" aria-labelledby="area-title">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <h3 id="area-title" class="card-title">Sightings by area</h3>
+              <fieldset class="flex gap-1.5">
+                <legend class="sr-only">Group areas by</legend>
+                <label class="choice-chip">
+                  <input type="radio" name="area-grouping" value="city" class="sr-only" checked />
+                  Cities
+                </label>
+                <label class="choice-chip">
+                  <input type="radio" name="area-grouping" value="region" class="sr-only" />
+                  UK regions
+                </label>
+              </fieldset>
+            </div>
+            <div id="area-chart" class="mt-4"></div>
+          </article>
+        </div>
+      </section>
+
+      <section id="seasons" aria-labelledby="seasons-title" class="pt-14">
+        <h2 id="seasons-title" class="section-title">Seasonal activity</h2>
+        <p class="section-intro">
+          How sightings fall across the months of the year. Choose a city and a year to compare.
+        </p>
+        <article class="card mt-4" aria-labelledby="seasonal-title">
+          <h3 id="seasonal-title" class="sr-only">Sightings by month of the year</h3>
+          <form id="seasonal-controls" class="flex flex-wrap items-end gap-4" novalidate>
+            <div>
+              <label for="seasonal-city" class="field-label">City</label>
+              <select id="seasonal-city" name="location" class="field-input w-48">
+                <option value="">All cities</option>
+              </select>
+            </div>
+            <div>
+              <label for="seasonal-year" class="field-label">Year</label>
+              <select id="seasonal-year" name="year" class="field-input w-36">
+                <option value="">All years</option>
+              </select>
+            </div>
+          </form>
+          <p id="seasonal-summary" class="mt-4 font-medium text-ink" aria-live="polite"></p>
+          <div id="seasonal-chart" class="mt-3"></div>
+          <p class="mt-4 max-w-3xl text-sm text-ink-muted">
+            In the UK, ticks are usually most active from spring to autumn. Elanco's sample is
+            spread evenly through the year, so this chart is flat for most selections. It shows the
+            data as it is rather than smoothing in a pattern that is not there.
+          </p>
+        </article>
+      </section>
+
+      <section id="species" aria-labelledby="species-title" class="pt-14">
+        <h2 id="species-title" class="section-title">Species identification guide</h2>
+        <p class="section-intro">
+          The five species recorded in Elanco's data. All are hard ticks. Unfed, they range from
+          under 1 mm (larvae) to about 4 mm (adults), and most look alike to the naked eye, so
+          telling them apart usually takes a magnifying lens or a microscope.
+        </p>
+        <div id="species-guide" class="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3"></div>
+        <aside class="card mt-4 border-accent/30 bg-accent-soft" aria-labelledby="identify-title">
+          <h3 id="identify-title" class="card-title">Getting a tick identified</h3>
+          <p class="mt-2 text-ink-soft">
+            The UK Health Security Agency's
+            <a
+              class="text-link"
+              href="https://www.gov.uk/guidance/tick-surveillance-scheme"
+              rel="noopener"
+              target="_blank"
+              >Tick Surveillance Scheme</a
+            >
+            identifies ticks sent in by the public and uses the records to map where each species
+            lives. It identifies the species but does not test the tick for disease. Keep the tick
+            in a sealed container in a cool place until you post it.
+          </p>
+        </aside>
+        <p class="mt-3 text-sm text-ink-muted">
+          Species notes are based on the UK Health Security Agency's
+          <a
+            class="text-link"
+            href="https://www.gov.uk/guidance/tick-species-profiles"
+            rel="noopener"
+            target="_blank"
+            >tick species profiles</a
+          >
+          and published research. Sighting numbers come from Elanco's data.
+        </p>
+      </section>
+
+      <section id="prevention" aria-labelledby="prevention-title" class="pt-14">
+        <h2 id="prevention-title" class="section-title">Preventing tick bites</h2>
+        <p class="section-intro">
+          Simple habits make bites much less likely, and removing a tick quickly lowers the risk of
+          infection.
+        </p>
+        <div class="mt-4 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <article class="card">
+            <h3 class="card-title">Before you go out</h3>
+            <ul class="mt-3 list-disc space-y-2 pl-5 text-ink-soft">
+              <li>
+                Wear long sleeves, and trousers tucked into your socks. Light colours make ticks
+                easier to spot.
+              </li>
+              <li>Use an insect repellent that works against ticks, such as one with DEET.</li>
+              <li>Keep to clear paths and avoid brushing through long grass and bracken.</li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3 class="card-title">When you get back</h3>
+            <ul class="mt-3 list-disc space-y-2 pl-5 text-ink-soft">
+              <li>
+                Check your skin and your children's, especially armpits, groin, waistband, behind
+                the knees, along the hairline and behind the ears.
+              </li>
+              <li>Brush off your clothes before going indoors, and shower soon after.</li>
+              <li>Check your pets and their bedding.</li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3 class="card-title">Removing a tick</h3>
+            <ol class="mt-3 list-decimal space-y-2 pl-5 text-ink-soft">
+              <li>
+                Use fine-tipped tweezers or a tick removal tool (pharmacies, vets and pet shops sell
+                them).
+              </li>
+              <li>
+                Grip the tick as close to the skin as you can and pull upwards slowly and firmly. Do
+                not twist, squeeze or crush it.
+              </li>
+              <li>Clean the bite with antiseptic, or soap and water.</li>
+              <li>
+                Do not burn the tick or cover it in oil, alcohol or petroleum jelly. These can make
+                things worse.
+              </li>
+            </ol>
+          </article>
+          <article class="card">
+            <h3 class="card-title">Protecting your pets</h3>
+            <ul class="mt-3 list-disc space-y-2 pl-5 text-ink-soft">
+              <li>
+                Check dogs and cats after walks: head, ears, neck, armpits and between the toes.
+              </li>
+              <li>Remove ticks promptly with a tick hook, twisting gently as the tool directs.</li>
+              <li>Ask your vet which tick treatment suits your pet and how often to use it.</li>
+              <li>
+                Dogs that explore badger setts or fox earths can pick up fox/badger ticks, so check
+                them carefully.
+              </li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3 class="card-title">When to get help</h3>
+            <ul class="mt-3 list-disc space-y-2 pl-5 text-ink-soft">
+              <li>
+                Contact your GP or call NHS 111 if a circular red rash spreads around the bite, or
+                if you get flu-like symptoms. The rash can appear up to 3 months later.
+              </li>
+              <li>Not everyone with Lyme disease gets a rash, so mention any recent tick bite.</li>
+              <li>Contact your vet if your pet seems unwell after a tick bite.</li>
+            </ul>
+          </article>
+          <article class="card bg-page">
+            <h3 class="card-title">Sources</h3>
+            <p class="mt-3 text-ink-soft">
+              This is general guidance, not medical advice. It is based on the
+              <a
+                class="text-link"
+                href="https://www.nhs.uk/conditions/lyme-disease/"
+                rel="noopener"
+                target="_blank"
+                >NHS</a
+              >
+              and the UK Health Security Agency's
+              <a
+                class="text-link"
+                href="https://www.gov.uk/guidance/tick-awareness-and-toolkit"
+                rel="noopener"
+                target="_blank"
+                >tick awareness guidance</a
+              >.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section id="report" aria-labelledby="report-title" class="pt-14">
+        <h2 id="report-title" class="section-title">Report a sighting</h2>
+        <p class="section-intro">
+          Seen a tick on yourself, a pet or outdoors in one of the 14 cities? Tell us when and
+          where.
+        </p>
+        <div class="mt-4 grid gap-4 lg:grid-cols-3">
+          <div class="card lg:col-span-2">
+            <div id="report-feedback" tabindex="-1"></div>
+            <form id="report-form" class="space-y-6" novalidate>
+              <div class="grid gap-6 sm:grid-cols-2">
+                <div id="field-date">
+                  <label for="report-date" class="field-label">Date</label>
+                  <p id="report-date-hint" class="field-hint">The day you saw or found the tick.</p>
+                  <input
+                    id="report-date"
+                    name="date"
+                    type="date"
+                    class="field-input"
+                    required
+                    aria-describedby="report-date-hint"
+                  />
+                </div>
+                <div id="field-time">
+                  <label for="report-time" class="field-label">Time</label>
+                  <p id="report-time-hint" class="field-hint">UK time, roughly is fine.</p>
+                  <input
+                    id="report-time"
+                    name="time"
+                    type="time"
+                    class="field-input"
+                    required
+                    aria-describedby="report-time-hint"
+                  />
+                </div>
+              </div>
+
+              <div id="field-location">
+                <label for="report-location" class="field-label">City</label>
+                <p id="report-location-hint" class="field-hint">
+                  The nearest of the 14 cities we track.
+                </p>
+                <div class="flex flex-wrap items-center gap-3">
+                  <select
+                    id="report-location"
+                    name="location"
+                    class="field-input max-w-xs"
+                    required
+                    aria-describedby="report-location-hint"
+                  >
+                    <option value="">Choose a city</option>
+                  </select>
+                  <button id="report-locate" type="button" class="btn-small mt-1.5">
+                    Use my location
+                  </button>
+                </div>
+                <p
+                  id="report-locate-status"
+                  class="mt-2 text-sm text-ink-soft"
+                  aria-live="polite"
+                ></p>
+              </div>
+
+              <fieldset id="field-species" aria-describedby="report-species-hint">
+                <legend class="field-label">Species</legend>
+                <p id="report-species-hint" class="field-hint">
+                  Not sure? Compare it with the
+                  <a class="text-link" href="#species">species guide</a>.
+                </p>
+                <div id="report-species-options" class="mt-2 grid gap-2 sm:grid-cols-2"></div>
+              </fieldset>
+
+              <div id="field-notes">
+                <label for="report-notes" class="field-label">Notes (optional)</label>
+                <p id="report-notes-hint" class="field-hint">
+                  For example where you found it, or whether it was on a person or a pet.
+                </p>
+                <textarea
+                  id="report-notes"
+                  name="notes"
+                  rows="3"
+                  class="field-input"
+                  aria-describedby="report-notes-hint report-notes-count"
+                ></textarea>
+                <p
+                  id="report-notes-count"
+                  class="mt-1 text-sm text-ink-muted"
+                  aria-live="polite"
+                ></p>
+              </div>
+
+              <div id="field-photo">
+                <label for="report-photo" class="field-label">Photo (optional)</label>
+                <p id="report-photo-hint" class="field-hint">
+                  A JPEG or PNG up to 5 MB. Your browser re-saves the photo before sending it, which
+                  strips hidden details such as GPS location.
+                </p>
+                <input
+                  id="report-photo"
+                  name="photo"
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp,image/heic,image/heif"
+                  class="mt-1.5 block w-full text-sm text-ink-soft file:mr-3 file:rounded-lg file:border file:border-line-strong file:bg-surface file:px-3 file:py-2 file:text-sm file:font-semibold file:text-ink hover:file:bg-page"
+                  aria-describedby="report-photo-hint"
+                />
+                <div id="report-photo-preview" class="mt-3" hidden></div>
+              </div>
+
+              <div class="flex flex-wrap items-center gap-3 border-t border-line pt-5">
+                <button id="report-submit" type="submit" class="btn-primary">Send report</button>
+                <button type="reset" class="btn-secondary">Clear form</button>
+              </div>
+            </form>
+          </div>
+
+          <aside class="card space-y-5 bg-page" aria-label="About reporting">
+            <div>
+              <h3 class="card-title">What happens to your report</h3>
+              <p class="mt-2 text-ink-soft">
+                It is saved straight away and shown in that city's panel as an unverified community
+                report.
+              </p>
+              <p class="mt-2 text-ink-soft">
+                Reports do not change a city's severity, which uses Elanco's data only, so a handful
+                of reports cannot make an area look riskier than it is.
+              </p>
+            </div>
+            <div>
+              <h3 class="card-title">Taking a useful photo</h3>
+              <p class="mt-2 text-ink-soft">
+                Use good light and a plain background, with a coin or ruler beside the tick for
+                scale.
+              </p>
+            </div>
+            <div>
+              <h3 class="card-title">Your privacy</h3>
+              <p class="mt-2 text-ink-soft">
+                We do not ask for your name or contact details. "Use my location" only picks the
+                nearest city in your browser; your location is never sent.
+              </p>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section id="about-data" aria-labelledby="about-data-title" class="pt-14">
+        <h2 id="about-data-title" class="section-title">About the data</h2>
+        <div class="mt-4 grid gap-4 lg:grid-cols-2">
+          <article
+            id="how-severity-works"
+            class="card scroll-target"
+            aria-labelledby="severity-title"
+          >
+            <h3 id="severity-title" class="card-title">How severity is worked out</h3>
+            <div id="severity-explainer" class="mt-3 space-y-3 text-ink-soft"></div>
+          </article>
+          <article class="card" aria-labelledby="quality-title">
+            <h3 id="quality-title" class="card-title">Data quality</h3>
+            <div id="data-quality" class="mt-3"></div>
+          </article>
+        </div>
+        <article class="card mt-4" aria-labelledby="caveats-title">
+          <h3 id="caveats-title" class="card-title">Good to know</h3>
+          <ul class="mt-3 list-disc space-y-2 pl-5 text-ink-soft">
+            <li>
+              Elanco's records name a city but not an exact place, so each marker sits at the city
+              centre rather than where the tick was found.
+            </li>
+            <li>
+              Recency is measured from the newest record in the data, not from today, because the
+              data ends in December 2024. Measured from today, every city would look inactive.
+            </li>
+            <li>
+              Elanco's data lists the passerine tick as <i>Dermacentor frontalis</i>. No tick by
+              that name exists: the passerine tick is <i>Ixodes frontalis</i>. The API keeps
+              Elanco's value so the data matches theirs, and the species guide gives the correct
+              name.
+            </li>
+            <li>
+              Every species appears in every city and sightings are spread evenly through the year,
+              unlike real UK tick records, so treat this as sample data rather than a real risk map.
+            </li>
+          </ul>
+        </article>
+      </section>
+    </main>
+
+    <footer class="border-t border-line bg-surface">
+      <div
+        class="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-6 text-sm text-ink-muted sm:px-6 lg:px-8"
+      >
+        <p>
+          Built by Hibatallah Maatallah for the Elanco IT Industrial Placement 2027/28 technical
+          task.
+        </p>
+        <p id="footer-data-source">Sighting data: Elanco tick sightings API.</p>
+      </div>
+    </footer>
   </body>
 </html>

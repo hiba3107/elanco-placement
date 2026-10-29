@@ -1,0 +1,277 @@
+/*
+ * Design tokens. Tailwind's theme maps onto these (see index.html), so the
+ * colours are defined once and the map markers keep their colours even if
+ * the Tailwind CDN fails to load.
+ */
+:root {
+  color-scheme: light;
+
+  --page: #f6f6f3;
+  --surface: #ffffff;
+  --line: #e1e0d9;
+  --line-strong: #8a8984;
+  --ink: #1d1c1a;
+  --ink-soft: #4d4c48;
+  --ink-muted: #6b6a65;
+
+  --accent: #1c5cab;
+  --accent-strong: #184f95;
+  --accent-soft: #e8f0fb;
+  --focus: #2a78d6;
+  --series: #2a78d6;
+
+  /* One hue, light to dark, so severity reads by lightness too (colour-blind safe). */
+  --severity-low: #f08d6a;
+  --severity-medium: #be4a1b;
+  --severity-high: #7e2500;
+
+  --error: #b42318;
+  --error-soft: #fef1f0;
+  --warning: #8a5300;
+  --warning-soft: #fff7e6;
+  --success: #1a6b34;
+  --success-soft: #edf7f0;
+}
+
+body {
+  background: var(--page);
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  z-index: 2000;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  background: var(--ink);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+section[id],
+[id].scroll-target {
+  scroll-margin-top: 1rem;
+}
+
+.spinner {
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 3px solid var(--line);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* While new data loads, the previous view stays in place, dimmed, instead of flashing empty. */
+.is-refreshing {
+  opacity: 0.45;
+  transition: opacity 0.2s;
+}
+
+/* Map markers: fill shows severity, size shows the number of sightings, a
+   blue ring shows recent activity and the letter shows the most-seen species. */
+.city-marker {
+  background: none;
+  border: none;
+}
+
+.city-marker__body {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 2px #ffffff,
+    0 1px 4px rgb(0 0 0 / 0.35);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.city-marker__body--low {
+  background: var(--severity-low);
+  color: var(--ink);
+}
+
+.city-marker__body--medium {
+  background: var(--severity-medium);
+  color: #ffffff;
+}
+
+.city-marker__body--high {
+  background: var(--severity-high);
+  color: #ffffff;
+}
+
+.city-marker--recent .city-marker__body {
+  box-shadow:
+    0 0 0 2px #ffffff,
+    0 0 0 5px var(--series),
+    0 1px 4px rgb(0 0 0 / 0.35);
+}
+
+.city-marker--recent .city-marker__body::before {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  border-radius: 50%;
+  border: 2px solid var(--series);
+  animation: pulse 2.4s ease-out infinite;
+  pointer-events: none;
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  to {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+.city-marker--selected .city-marker__body {
+  box-shadow:
+    0 0 0 2px #ffffff,
+    0 0 0 5px var(--ink),
+    0 1px 6px rgb(0 0 0 / 0.45);
+}
+
+.city-marker__species {
+  position: absolute;
+  right: -5px;
+  bottom: -5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1.5px solid var(--ink);
+  background: #ffffff;
+  color: var(--ink);
+  font-size: 0.625rem;
+  font-weight: 700;
+}
+
+.leaflet-container {
+  font: inherit;
+  background: #eceae4;
+}
+
+.leaflet-container .leaflet-marker-icon:focus-visible {
+  outline: none;
+}
+
+.leaflet-container .leaflet-marker-icon:focus-visible .city-marker__body {
+  box-shadow:
+    0 0 0 2px #ffffff,
+    0 0 0 5px var(--focus);
+}
+
+.leaflet-tooltip.city-tooltip {
+  padding: 0.5rem 0.625rem;
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.15);
+  color: var(--ink);
+  font-size: 0.8125rem;
+  line-height: 1.35;
+}
+
+.map-legend {
+  max-width: 15rem;
+  padding: 0.625rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 0.625rem;
+  background: rgb(255 255 255 / 0.96);
+  box-shadow: 0 1px 4px rgb(0 0 0 / 0.12);
+  color: var(--ink);
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+.map-legend summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.swatch {
+  display: inline-block;
+  flex: none;
+  width: 0.875rem;
+  height: 0.875rem;
+  border-radius: 50%;
+}
+
+.swatch--low {
+  background: var(--severity-low);
+}
+
+.swatch--medium {
+  background: var(--severity-medium);
+}
+
+.swatch--high {
+  background: var(--severity-high);
+}
+
+.letter-badge {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  border: 1.5px solid var(--ink);
+  background: #ffffff;
+  color: var(--ink);
+  font-size: 0.8125rem;
+  font-weight: 700;
+}
+
+details > summary::-webkit-details-marker {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .city-marker--recent .city-marker__body::before,
+  .spinner {
+    animation: none;
+  }
+
+  .is-refreshing {
+    transition: none;
+  }
+}
