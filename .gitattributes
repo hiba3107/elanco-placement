@@ -1,0 +1,7 @@
+# Keep LF line endings in the working tree on every OS, so Prettier and git
+# agree on Windows machines where core.autocrlf would otherwise add CRLF.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary

@@ -1,25 +1,12 @@
-const express = require("express");
-const cors = require("cors");
-const { getSightings } = require("./elanco");
+const { loadConfig } = require("./src/config");
+const { createLogger } = require("./src/logger");
+const { createApp } = require("./src/app");
+const { getSightings } = require("./src/elanco/client");
 
-const app = express();
+const config = loadConfig();
+const logger = createLogger(config.logLevel);
+const app = createApp({ config, logger, getSightings });
 
-app.use(cors());
-
-app.get("/health", (request, response) => {
-  response.json({ status: "ok" });
-});
-
-app.get("/sightings", async (request, response) => {
-  try {
-    const sightings = await getSightings();
-    response.json(sightings);
-  } catch (error) {
-    console.error(error);
-    response.status(502).json({ error: "Could not reach the Elanco API" });
-  }
-});
-
-app.listen(3000, () => {
-  console.log("API running on http://localhost:3000");
+app.listen(config.port, () => {
+  logger.info(`Tick Tracker running at http://localhost:${config.port}`);
 });

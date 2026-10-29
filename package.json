@@ -1,0 +1,32 @@
+{
+  "name": "elanco-tick-tracker",
+  "version": "1.0.0",
+  "private": true,
+  "description": "UK tick sightings tracker: an Express API over Elanco's tick data, with a Leaflet map, charts and a report form.",
+  "author": "Hibatallah Maatallah",
+  "license": "ISC",
+  "type": "commonjs",
+  "main": "api/server.js",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node api/server.js",
+    "dev": "node --watch api/server.js",
+    "test": "node --test \"api/test/**/*.test.js\"",
+    "test:coverage": "node --test --experimental-test-coverage \"api/test/**/*.test.js\"",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check": "npm run lint && npm run format:check && npm test"
+  },
+  "dependencies": {
+    "express": "^5.3.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "eslint": "10.13.0",
+    "globals": "17.13.0",
+    "prettier": "3.9.10"
+  }
+}

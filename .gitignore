@@ -1,0 +1,15 @@
+node_modules/
+coverage/
+
+# Runtime data written by the API: Elanco snapshot, user reports and uploaded photos
+api/data/
+
+.env
+.env.*
+!.env.example
+*.log
+
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
