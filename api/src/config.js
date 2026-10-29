@@ -31,6 +31,7 @@ function loadConfig(env = process.env) {
     port: readWholeNumber(env, "PORT", 3000),
     logLevel: readLogLevel(env),
     dataDir: path.resolve(env.DATA_DIR || path.join(API_ROOT, "data")),
+    webDir: path.resolve(API_ROOT, "..", "web"),
     elanco: Object.freeze({
       url: env.ELANCO_API_URL || "https://dev-task.elancoapps.com/data/tick-sightings",
       timeoutMs: readWholeNumber(env, "ELANCO_TIMEOUT_MS", 10_000, { min: 1 }),

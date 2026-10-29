@@ -24,7 +24,7 @@ const store = createSightingStore({
   recoveryIntervalMs: config.elanco.recoveryMinutes * MINUTE_MS,
 });
 
-const app = createApp({ store });
+const app = createApp({ store, logger, webDir: config.webDir });
 
 // The server starts listening straight away and loads the data in the
 // background, so the page can show "still loading" instead of failing to connect.

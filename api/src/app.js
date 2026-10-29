@@ -1,28 +1,29 @@
 const express = require("express");
-const { formatTimestamp } = require("./lib/dates");
 
-function createApp({ store }) {
+const { apiNotFound } = require("./middleware/apiNotFound");
+const { createErrorHandler } = require("./middleware/errorHandler");
+const { securityHeaders } = require("./middleware/securityHeaders");
+const { createHealthRouter } = require("./routes/health");
+const { createMetaRouter } = require("./routes/meta");
+const { createSightingsRouter } = require("./routes/sightings");
+
+// Builds the app without starting it, so tests can create one with fake
+// dependencies and server.js can create the real one.
+function createApp({ store, logger, webDir }) {
   const app = express();
+  app.disable("x-powered-by");
+  app.use(securityHeaders);
 
-  app.get("/api/health", (request, response) => {
-    const { status, sightings, source, fetchedAt, lastError } = store.getState();
-    response.json({
-      status: "ok",
-      data: { status, records: sightings.length, source, fetchedAt, lastError },
-    });
-  });
+  app.use("/api", createHealthRouter({ store }));
+  app.use("/api", createMetaRouter({ store }));
+  app.use("/api", createSightingsRouter({ store }));
+  app.use("/api", apiNotFound);
 
-  app.get("/api/sightings", (request, response) => {
-    const { status, sightings } = store.getState();
-    if (status === "loading" || status === "unavailable") {
-      response.status(503).json({ error: "Tick data is not available yet" });
-      return;
-    }
-    response.json(
-      sightings.map((sighting) => ({ ...sighting, date: formatTimestamp(sighting.date) })),
-    );
-  });
+  // The page is served from the same origin as the API, so the browser needs
+  // no CORS rules to call it.
+  app.use(express.static(webDir));
 
+  app.use(createErrorHandler(logger));
   return app;
 }
 

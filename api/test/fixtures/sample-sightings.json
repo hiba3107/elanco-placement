@@ -1,0 +1,170 @@
+[
+  {
+    "id": "lon-2024-12-20",
+    "date": "2024-12-20T10:00:00",
+    "location": "London",
+    "species": "Marsh tick",
+    "latinName": "Ixodes apronophorus"
+  },
+  {
+    "id": "lon-2024-11-02",
+    "date": "2024-11-02T14:30:00",
+    "location": "London",
+    "species": "Passerine tick",
+    "latinName": "Dermacentor frontalis"
+  },
+  {
+    "id": "lon-2024-06-15",
+    "date": "2024-06-15T09:00:00",
+    "location": "London",
+    "species": "Marsh tick",
+    "latinName": "Ixodes apronophorus"
+  },
+  {
+    "id": "lon-2024-03-08",
+    "date": "2024-03-08T17:45:00",
+    "location": "London",
+    "species": "Fox/badger tick",
+    "latinName": "Ixodes canisuga"
+  },
+  {
+    "id": "lon-2023-09-21",
+    "date": "2023-09-21T12:00:00",
+    "location": "London",
+    "species": "Tree-hole tick",
+    "latinName": "Ixodes arboricola"
+  },
+  {
+    "id": "lon-2023-05-05",
+    "date": "2023-05-05T08:20:00",
+    "location": "London",
+    "species": "Marsh tick",
+    "latinName": "Ixodes apronophorus"
+  },
+  {
+    "id": "lon-2022-08-30",
+    "date": "2022-08-30T19:10:00",
+    "location": "London",
+    "species": "Southern rodent tick",
+    "latinName": "Ixodes acuminatus"
+  },
+  {
+    "id": "lon-2022-01-14",
+    "date": "2022-01-14T11:00:00",
+    "location": "London",
+    "species": "Passerine tick",
+    "latinName": "Dermacentor frontalis"
+  },
+  {
+    "id": "lds-2024-12-28",
+    "date": "2024-12-28T08:00:00",
+    "location": "Leeds",
+    "species": "Fox/badger tick",
+    "latinName": "Ixodes canisuga"
+  },
+  {
+    "id": "lds-2024-07-19",
+    "date": "2024-07-19T13:15:00",
+    "location": "Leeds",
+    "species": "Fox/badger tick",
+    "latinName": "Ixodes canisuga"
+  },
+  {
+    "id": "lds-2024-02-02",
+    "date": "2024-02-02T10:40:00",
+    "location": "Leeds",
+    "species": "Tree-hole tick",
+    "latinName": "Ixodes arboricola"
+  },
+  {
+    "id": "lds-2023-10-10",
+    "date": "2023-10-10T16:00:00",
+    "location": "Leeds",
+    "species": "Passerine tick",
+    "latinName": "Dermacentor frontalis"
+  },
+  {
+    "id": "lds-2022-12-31",
+    "date": "2022-12-31T23:30:00",
+    "location": "Leeds",
+    "species": "Marsh tick",
+    "latinName": "Ixodes apronophorus"
+  },
+  {
+    "id": "lds-2022-04-01",
+    "date": "2022-04-01T07:05:00",
+    "location": "Leeds",
+    "species": "Southern rodent tick",
+    "latinName": "Ixodes acuminatus"
+  },
+  {
+    "id": "gla-2024-12-30",
+    "date": "2024-12-30T16:00:00",
+    "location": "Glasgow",
+    "species": "Tree-hole tick",
+    "latinName": "Ixodes arboricola"
+  },
+  {
+    "id": "gla-2023-12-24",
+    "date": "2023-12-24T12:00:00",
+    "location": "Glasgow",
+    "species": "Passerine tick",
+    "latinName": "Dermacentor frontalis"
+  },
+  {
+    "id": "gla-2023-06-06",
+    "date": "2023-06-06T06:06:00",
+    "location": "Glasgow",
+    "species": "Fox/badger tick",
+    "latinName": "Ixodes canisuga"
+  },
+  {
+    "id": "gla-2023-01-17",
+    "date": "2023-01-17T15:30:00",
+    "location": "Glasgow",
+    "species": "Marsh tick",
+    "latinName": "Ixodes apronophorus"
+  },
+  {
+    "id": "gla-2022-07-07",
+    "date": "2022-07-07T09:45:00",
+    "location": "Glasgow",
+    "species": "Tree-hole tick",
+    "latinName": "Ixodes arboricola"
+  },
+  {
+    "id": "gla-2022-03-03",
+    "date": "2022-03-03T10:10:00",
+    "location": "Glasgow",
+    "species": "Passerine tick",
+    "latinName": "Dermacentor frontalis"
+  },
+  {
+    "id": "cdf-2023-08-08",
+    "date": "2023-08-08T08:08:00",
+    "location": "Cardiff",
+    "species": "Southern rodent tick",
+    "latinName": "Ixodes acuminatus"
+  },
+  {
+    "id": "cdf-2023-03-30",
+    "date": "2023-03-30T14:00:00",
+    "location": "Cardiff",
+    "species": "Marsh tick",
+    "latinName": "Ixodes apronophorus"
+  },
+  {
+    "id": "cdf-2022-11-11",
+    "date": "2022-11-11T11:11:00",
+    "location": "Cardiff",
+    "species": "Fox/badger tick",
+    "latinName": "Ixodes canisuga"
+  },
+  {
+    "id": "cdf-2022-01-03",
+    "date": "2022-01-03T09:30:00",
+    "location": "Cardiff",
+    "species": "Passerine tick",
+    "latinName": "Dermacentor frontalis"
+  }
+]
