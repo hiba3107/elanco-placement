@@ -1,13 +1,16 @@
+const path = require("node:path");
+
+const API_ROOT = path.resolve(__dirname, "..");
 const LOG_LEVELS = ["error", "warn", "info", "debug", "silent"];
 
-function readWholeNumber(env, name, fallback) {
+function readWholeNumber(env, name, fallback, { min = 0 } = {}) {
   const raw = env[name];
   if (raw === undefined || raw.trim() === "") {
     return fallback;
   }
   const value = Number(raw);
-  if (!Number.isInteger(value) || value < 0) {
-    throw new Error(`${name} must be a whole number (0 or more), got "${raw}"`);
+  if (!Number.isInteger(value) || value < min) {
+    throw new Error(`${name} must be a whole number of at least ${min}, got "${raw}"`);
   }
   return value;
 }
@@ -27,8 +30,13 @@ function loadConfig(env = process.env) {
   return Object.freeze({
     port: readWholeNumber(env, "PORT", 3000),
     logLevel: readLogLevel(env),
+    dataDir: path.resolve(env.DATA_DIR || path.join(API_ROOT, "data")),
     elanco: Object.freeze({
       url: env.ELANCO_API_URL || "https://dev-task.elancoapps.com/data/tick-sightings",
+      timeoutMs: readWholeNumber(env, "ELANCO_TIMEOUT_MS", 10_000, { min: 1 }),
+      maxAttempts: readWholeNumber(env, "ELANCO_MAX_ATTEMPTS", 5, { min: 1 }),
+      refreshMinutes: readWholeNumber(env, "ELANCO_REFRESH_MINUTES", 360),
+      recoveryMinutes: readWholeNumber(env, "ELANCO_RECOVERY_MINUTES", 2),
     }),
   });
 }

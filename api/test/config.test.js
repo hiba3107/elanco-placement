@@ -38,3 +38,24 @@ describe("loadConfig", () => {
     assert.throws(() => loadConfig({ LOG_LEVEL: "loud" }), /LOG_LEVEL must be one of/);
   });
 });
+
+describe("loadConfig data settings", () => {
+  it("has defaults for the Elanco connection and data folder", () => {
+    const config = loadConfig({});
+
+    assert.equal(config.elanco.timeoutMs, 10000);
+    assert.equal(config.elanco.maxAttempts, 5);
+    assert.equal(config.elanco.refreshMinutes, 360);
+    assert.equal(config.elanco.recoveryMinutes, 2);
+    assert.match(config.dataDir, /api[\\/]data$/);
+  });
+
+  it("resolves DATA_DIR to an absolute path", () => {
+    assert.equal(loadConfig({ DATA_DIR: "/srv/tick-data" }).dataDir, "/srv/tick-data");
+  });
+
+  it("needs at least one attempt and a timeout above zero", () => {
+    assert.throws(() => loadConfig({ ELANCO_MAX_ATTEMPTS: "0" }), /at least 1/);
+    assert.throws(() => loadConfig({ ELANCO_TIMEOUT_MS: "0" }), /at least 1/);
+  });
+});
