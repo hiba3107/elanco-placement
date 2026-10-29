@@ -42,6 +42,7 @@ function createSightingStore({
   let state = Object.freeze({
     status: "loading",
     sightings: [],
+    sightingsById: new Map(),
     report: null,
     dateRange: null,
     source: null,
@@ -65,7 +66,11 @@ function createSightingStore({
     if (cleaned.sightings.length === 0) {
       throw new Error(describeUnusableFeed(cleaned.report));
     }
-    return { ...cleaned, dateRange: dateRangeOf(cleaned.sightings) };
+    return {
+      ...cleaned,
+      sightingsById: new Map(cleaned.sightings.map((sighting) => [sighting.id, sighting])),
+      dateRange: dateRangeOf(cleaned.sightings),
+    };
   }
 
   async function saveSnapshot(records, fetchedAt) {
