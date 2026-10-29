@@ -4,6 +4,7 @@ const { apiNotFound } = require("./middleware/apiNotFound");
 const { createErrorHandler } = require("./middleware/errorHandler");
 const { securityHeaders } = require("./middleware/securityHeaders");
 const { createHealthRouter } = require("./routes/health");
+const { createInsightsRouter } = require("./routes/insights");
 const { createMetaRouter } = require("./routes/meta");
 const { createSightingsRouter } = require("./routes/sightings");
 
@@ -17,6 +18,7 @@ function createApp({ store, logger, webDir }) {
   app.use("/api", createHealthRouter({ store }));
   app.use("/api", createMetaRouter({ store }));
   app.use("/api", createSightingsRouter({ store }));
+  app.use("/api", createInsightsRouter({ store }));
   app.use("/api", apiNotFound);
 
   // The page is served from the same origin as the API, so the browser needs

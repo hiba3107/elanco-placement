@@ -265,4 +265,4 @@ function cleanSightings(rawRecords, options = {}) {
   };
 }
 
-module.exports = { CORRECTION_TYPES, EARLIEST_PLAUSIBLE_DATE, REMOVAL_REASONS, cleanSightings };
+module.exports = { cleanSightings };

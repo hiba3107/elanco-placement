@@ -1,11 +1,13 @@
 const { FILTER_KEYS, parseSightingFilters } = require("../analysis/filters");
 const { parsePagination, parseSort } = require("../analysis/pagination");
+const { parseInterval } = require("../analysis/trends");
 const { validationError } = require("../errors");
 
 const QUERY_PARSERS = Object.freeze({
   filters: { keys: FILTER_KEYS, parse: parseSightingFilters },
   pagination: { keys: ["page", "pageSize"], parse: parsePagination },
   sort: { keys: ["sort"], parse: parseSort },
+  interval: { keys: ["interval"], parse: parseInterval },
 });
 
 function findUnknownKeys(query, allowedKeys) {
