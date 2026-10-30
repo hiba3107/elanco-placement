@@ -29,7 +29,15 @@ export function applyChartDefaults() {
   Chart.defaults.color = CHART_COLOURS.text;
   Chart.defaults.borderColor = CHART_COLOURS.grid;
   Chart.defaults.maintainAspectRatio = false;
-  Chart.defaults.animation = reduceMotion ? false : { duration: 250 };
+  // Change the animation defaults in place, never replace the object: Chart.js
+  // reads its keys to know which settings an animation has. Replacing it
+  // dropped "type", so colours were animated as plain strings, and the first
+  // animated colour change (a hovered bar resized by a zoom) crashed the
+  // animation loop every chart shares, freezing them all.
+  Chart.defaults.animation.duration = reduceMotion ? 0 : 250;
+  if (reduceMotion) {
+    Chart.defaults.transitions.active.animation.duration = 0;
+  }
   // Every chart has a single series, named by its title, so a legend box
   // would only repeat the title.
   Chart.defaults.plugins.legend.display = false;

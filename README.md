@@ -134,6 +134,14 @@ npm run check
 
 `npm run check` runs ESLint, Prettier's formatting check and every test in one go.
 
+```bash
+npm run test:browser
+```
+
+`npm run test:browser` runs the charts in a real Chromium through Playwright, zooming the page the
+way a trackpad pinch does and checking every chart still redraws. It needs a browser for Playwright
+the first time: `npx playwright install chromium`.
+
 There are **300 tests**, all run with Node's built-in test runner. None of them touch the network:
 they use small fixtures, including one of 33 deliberately broken records, each labelled with what is
 wrong with it. Coverage of the API's source code is about 99% of lines and 96% of branches, and every

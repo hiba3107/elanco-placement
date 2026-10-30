@@ -20,6 +20,11 @@ module.exports = [
     languageOptions: { sourceType: "module", globals: globals.node },
   },
   {
+    // Browser tests run some of their code inside the page.
+    files: ["api/test/browser/**/*.mjs"],
+    languageOptions: { globals: { ...globals.node, ...globals.browser } },
+  },
+  {
     files: ["web/**/*.js"],
     languageOptions: {
       sourceType: "module",
