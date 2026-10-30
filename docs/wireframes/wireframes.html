@@ -1,0 +1,1027 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tick Tracker wireframes</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        padding: 24px;
+        background: #e9e9e9;
+        color: #2b2b2b;
+        font:
+          13px/1.4 system-ui,
+          sans-serif;
+      }
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+
+      .board {
+        width: 1200px;
+        margin: 0 auto 32px;
+        padding: 28px;
+        background: #fff;
+        border-radius: 12px;
+      }
+      .board-title {
+        font-size: 20px;
+      }
+      .board-intro {
+        margin: 4px 0 20px;
+        color: #666;
+      }
+      .layout {
+        display: flex;
+        gap: 28px;
+        align-items: flex-start;
+      }
+      .notes {
+        width: 270px;
+        flex: none;
+        padding: 0;
+        margin: 0;
+        list-style: none;
+      }
+      .notes li {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+
+      .screen {
+        flex: 1;
+        border: 2px solid #8c8c8c;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      .phone {
+        flex: none;
+        width: 262px;
+        border-width: 3px;
+        border-radius: 26px;
+        padding-bottom: 10px;
+      }
+      .page {
+        padding: 16px 20px;
+      }
+      .stack > * + * {
+        margin-top: 10px;
+      }
+      .row {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      .wrap {
+        flex-wrap: wrap;
+      }
+      .grow {
+        flex: 1;
+      }
+      .cols-2,
+      .cols-3,
+      .cols-4,
+      .cols-5 {
+        display: grid;
+        gap: 10px;
+      }
+      .cols-2 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .cols-3 {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .cols-4 {
+        grid-template-columns: repeat(4, 1fr);
+      }
+      .cols-5 {
+        grid-template-columns: repeat(5, 1fr);
+      }
+
+      .header {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+        padding: 10px 20px;
+        border-bottom: 1.5px solid #bbb;
+      }
+      .logo {
+        font-weight: 700;
+        margin-right: auto;
+      }
+      .nav {
+        color: #555;
+      }
+      .h1 {
+        font-size: 22px;
+        font-weight: 700;
+      }
+      .h2 {
+        font-size: 16px;
+        font-weight: 700;
+      }
+      .h3 {
+        font-weight: 700;
+      }
+      .muted {
+        color: #777;
+      }
+      .small {
+        font-size: 11px;
+      }
+      .italic {
+        font-style: italic;
+      }
+
+      .card {
+        position: relative;
+        padding: 12px;
+        border: 1.5px solid #a8a8a8;
+        border-radius: 8px;
+        background: #fff;
+      }
+      .tile {
+        padding: 8px 10px;
+        border: 1.5px solid #a8a8a8;
+        border-radius: 8px;
+      }
+      .tile b {
+        display: block;
+        font-size: 17px;
+      }
+      .line {
+        height: 7px;
+        margin: 6px 0;
+        border-radius: 4px;
+        background: #d9d9d9;
+      }
+      .w90 {
+        width: 90%;
+      }
+      .w70 {
+        width: 70%;
+      }
+      .w50 {
+        width: 50%;
+      }
+      .w30 {
+        width: 30%;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 6px 11px;
+        border: 1.5px solid #555;
+        border-radius: 7px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      .btn.primary {
+        background: #3d3d3d;
+        color: #fff;
+      }
+      .chip {
+        display: inline-block;
+        padding: 3px 9px;
+        border: 1.5px solid #999;
+        border-radius: 999px;
+        font-size: 12px;
+      }
+      .chip.on {
+        background: #3d3d3d;
+        border-color: #3d3d3d;
+        color: #fff;
+      }
+      .input {
+        height: 30px;
+        padding: 6px 8px;
+        overflow: hidden;
+        border: 1.5px solid #999;
+        border-radius: 6px;
+        color: #888;
+        white-space: nowrap;
+      }
+      .input.tall {
+        height: 56px;
+      }
+      .input.invalid {
+        border: 2.5px solid #b3261e;
+      }
+      .label {
+        font-weight: 700;
+        font-size: 12px;
+      }
+      .placeholder {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1.5px dashed #999;
+        border-radius: 6px;
+        background: #f5f5f5;
+        color: #777;
+        text-align: center;
+      }
+
+      .callout {
+        display: inline-flex;
+        flex: none;
+        align-items: center;
+        justify-content: center;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: #1c5cab;
+        color: #fff;
+        font-weight: 700;
+        font-size: 12px;
+      }
+      .pin {
+        position: absolute;
+        z-index: 2;
+        box-shadow: 0 0 0 3px #fff;
+      }
+      .relative {
+        position: relative;
+      }
+
+      .map {
+        position: relative;
+        border: 1.5px solid #a8a8a8;
+        border-radius: 8px;
+        background: #f3f3f3;
+      }
+      .map svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+      .legend {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        padding: 6px 8px;
+        border: 1.5px solid #a8a8a8;
+        border-radius: 6px;
+        background: #fff;
+        font-size: 11px;
+      }
+      .swatch {
+        display: inline-block;
+        width: 11px;
+        height: 11px;
+        border: 1px solid #666;
+        border-radius: 3px;
+        vertical-align: -1px;
+      }
+      .low {
+        background: #e0e0e0;
+      }
+      .medium {
+        background: #9a9a9a;
+      }
+      .high {
+        background: #474747;
+      }
+      .city {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        padding: 7px 0;
+        border-bottom: 1px solid #ddd;
+      }
+      .bars {
+        display: flex;
+        gap: 4px;
+        align-items: flex-end;
+        height: 80px;
+        padding: 6px;
+        border-bottom: 1.5px solid #999;
+      }
+      .bars span {
+        flex: 1;
+        border-radius: 3px 3px 0 0;
+        background: #9a9a9a;
+      }
+
+      .message {
+        padding: 10px;
+        border-radius: 8px;
+      }
+      .message.error {
+        border: 2.5px solid #b3261e;
+      }
+      .message.warning {
+        border: 2px solid #8a5a00;
+        background: #fdf6e7;
+      }
+      .message.success {
+        border: 2.5px solid #1e6b35;
+        background: #edf7f0;
+      }
+      .text-error {
+        color: #b3261e;
+        font-weight: 600;
+      }
+      .text-warning {
+        color: #8a5a00;
+      }
+      .text-success {
+        color: #1e6b35;
+        font-weight: 700;
+      }
+      .spinner {
+        width: 22px;
+        height: 22px;
+        border: 3px solid #ccc;
+        border-top-color: #555;
+        border-radius: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <svg width="0" height="0" aria-hidden="true">
+      <symbol id="uk-map" viewBox="0 0 320 545">
+        <polygon
+          fill="#fff"
+          stroke="#9a9a9a"
+          stroke-width="2"
+          points="56.4,18 127,15 123.5,30 91.7,60 105.8,75 169.3,78 158.8,105 144.6,138 134.1,156 120,171 162.3,186 176.4,216 183.5,240 190.5,258 211.7,267 229.3,288 236.4,318 243.4,348 247,360 268.1,357 294.6,378 292.8,408 268.1,426 254,444 282.2,453 280.5,468 264.6,480 239.9,489 204.6,489 187,486 162.3,498 146.4,498 109.4,504 84.7,513 31.8,531 56.4,510 84.7,468 127,462 137.6,444 120,447 84.7,441 49.4,429 70.6,408 88.2,384 67,366 84.7,342 127,330 127,306 120,288 105.8,264 120,237 77.6,252 52.9,243 60,210 60,180 35.3,216 35.3,174 24.7,144 28.2,114 31.8,78 49.4,54"
+        />
+        <g stroke="#fff" stroke-width="2">
+          <circle cx="192" cy="357" r="12" fill="#474747" />
+          <circle cx="166" cy="385" r="10.3" fill="#9a9a9a" />
+          <circle cx="83" cy="182" r="9.8" fill="#9a9a9a" />
+          <circle cx="142" cy="447" r="9.6" fill="#474747" />
+          <circle cx="228" cy="444" r="9.5" fill="#9a9a9a" />
+          <circle cx="127" cy="329" r="9.1" fill="#e0e0e0" />
+          <circle cx="120" cy="177" r="9.1" fill="#9a9a9a" />
+          <circle cx="154" cy="325" r="9" fill="#474747" />
+          <circle cx="121" cy="445" r="8.8" fill="#9a9a9a" />
+          <circle cx="181" cy="331" r="8.6" fill="#9a9a9a" />
+          <circle cx="193" cy="376" r="7.5" fill="#e0e0e0" />
+          <circle cx="178" cy="306" r="7.3" fill="#9a9a9a" />
+          <circle cx="183" cy="479" r="7" fill="#e0e0e0" />
+          <circle cx="176" cy="235" r="7" fill="#9a9a9a" />
+        </g>
+        <g fill="none" stroke="#1c5cab" stroke-width="2.5">
+          <circle cx="154" cy="325" r="13" />
+          <circle cx="228" cy="444" r="13.5" />
+        </g>
+      </symbol>
+    </svg>
+
+    <section class="board" id="home">
+      <h2 class="board-title">1. Home: map, filters and city list (desktop)</h2>
+      <p class="board-intro">
+        The first screen answers "where are ticks being seen?" before anything else.
+      </p>
+      <div class="layout">
+        <div class="screen">
+          <div class="header">
+            <span class="logo">Tick Tracker</span>
+            <span class="nav">Map</span><span class="nav">Trends</span>
+            <span class="nav">Seasons</span><span class="nav">Species guide</span>
+            <span class="nav">Prevention</span><span class="nav">About the data</span>
+            <span class="btn primary">Report a sighting</span>
+          </div>
+          <div class="page stack">
+            <div class="message warning relative">
+              <span class="callout pin" style="left: -10px; top: -10px">5</span>
+              <b>Showing saved data</b>
+              <span class="text-warning">(only shown when Elanco is down or still loading)</span>
+            </div>
+            <p class="h1">Tick sightings across the UK</p>
+            <div class="line w70"></div>
+            <div class="cols-4">
+              <div class="tile">Sightings<b>1,000</b></div>
+              <div class="tile">Cities<b>14</b></div>
+              <div class="tile">Species<b>5</b></div>
+              <div class="tile">Years covered<b>2012–2024</b></div>
+            </div>
+            <p class="h2" style="margin-top: 18px">Map of sightings</p>
+            <div class="card relative">
+              <span class="callout pin" style="left: -10px; top: -10px">3</span>
+              <div class="row wrap">
+                <span class="label">From</span><span class="input">dd/mm/yyyy</span>
+                <span class="label">To</span><span class="input">dd/mm/yyyy</span>
+                <span class="chip">All years</span><span class="chip">2022–2024</span
+                ><span class="chip on">2024 only</span>
+              </div>
+              <div class="row wrap" style="margin-top: 8px">
+                <span class="label">Species</span>
+                <span class="chip on">Fox/badger</span><span class="chip">Marsh</span
+                ><span class="chip">Passerine</span><span class="chip">Southern rodent</span
+                ><span class="chip">Tree-hole</span>
+                <span class="label">Severity</span>
+                <span class="chip">High</span><span class="chip">Medium</span
+                ><span class="chip">Low</span>
+                <span class="btn">Reset</span>
+              </div>
+            </div>
+            <div class="row" style="align-items: stretch">
+              <div class="map grow" style="height: 440px">
+                <span class="callout pin" style="left: 46%; top: 54%">1</span>
+                <svg viewBox="0 0 320 545"><use href="#uk-map" /></svg>
+                <div class="legend">
+                  <span class="callout pin" style="left: -10px; top: -10px">2</span>
+                  <b>Severity</b><br />
+                  <span class="swatch high"></span> High <span class="swatch medium"></span> Medium
+                  <span class="swatch low"></span> Low<br />
+                  Ring: seen in the last 30 days<br />
+                  Size: number of sightings
+                </div>
+              </div>
+              <div class="card relative" style="width: 230px">
+                <span class="callout pin" style="left: -10px; top: -10px">4</span>
+                <p class="h3">Cities, most active first</p>
+                <div class="city">
+                  <span class="swatch high"></span>Nottingham<span class="grow"></span>95
+                </div>
+                <div class="city">
+                  <span class="swatch high"></span>Manchester<span class="grow"></span>72
+                </div>
+                <div class="city">
+                  <span class="swatch high"></span>Bristol<span class="grow"></span>77
+                </div>
+                <div class="city">
+                  <span class="swatch medium"></span>London<span class="grow"></span>76
+                </div>
+                <div class="city">
+                  <span class="swatch medium"></span>Glasgow<span class="grow"></span>78
+                </div>
+                <div class="city">
+                  <span class="swatch medium"></span>Birmingham<span class="grow"></span>82
+                </div>
+                <div class="city muted">… 8 more</div>
+              </div>
+            </div>
+            <p class="muted small">
+              Showing 14 cities and 1,000 sightings. How severity is worked out
+            </p>
+          </div>
+        </div>
+        <ol class="notes">
+          <li>
+            <span class="callout">1</span>
+            <span
+              >Markers show four things: <b>colour</b> is severity, a <b>ring</b> means recent
+              activity, a <b>letter</b> is the most-seen species, and <b>size</b> is the number of
+              sightings. Each is a keyboard button.</span
+            >
+          </li>
+          <li>
+            <span class="callout">2</span>
+            <span>The legend explains every visual code, so nothing relies on colour alone.</span>
+          </li>
+          <li>
+            <span class="callout">3</span>
+            <span
+              >Filters for date range, species and severity. Quick ranges cover the common choices.
+              The address bar keeps the filters, so a link reopens the same view.</span
+            >
+          </li>
+          <li>
+            <span class="callout">4</span>
+            <span
+              >The same cities as a list: an equivalent to the map for keyboard and screen-reader
+              users, and a larger target than overlapping markers.</span
+            >
+          </li>
+          <li>
+            <span class="callout">5</span>
+            <span>A banner explains when data is loading, saved from earlier, or unavailable.</span>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="board" id="city-panel">
+      <h2 class="board-title">2. City detail panel (desktop)</h2>
+      <p class="board-intro">
+        Choosing a marker or a list row swaps the list for that city's details.
+      </p>
+      <div class="layout">
+        <div class="screen">
+          <div class="page row" style="align-items: stretch">
+            <div class="map grow" style="height: 640px">
+              <svg viewBox="0 0 320 545"><use href="#uk-map" /></svg>
+            </div>
+            <div class="card stack" style="width: 340px">
+              <span class="btn">← All cities</span>
+              <div class="relative">
+                <span class="callout pin" style="left: -24px; top: 0">1</span>
+                <p class="h2">Manchester</p>
+                <p class="muted">North West · England</p>
+              </div>
+              <p><span class="swatch high"></span> <b>High severity</b></p>
+              <p class="muted">Score 6.6: about twice the median city.</p>
+              <div class="cols-3">
+                <div class="tile small">Sightings<b>72</b></div>
+                <div class="tile small">Last seen<b>30 Dec</b></div>
+                <div class="tile small">Last 30 days<b>1</b></div>
+              </div>
+              <div class="row wrap relative">
+                <span class="callout pin" style="left: -24px; top: 2px">2</span>
+                <span class="btn primary">Report a sighting here</span>
+                <span class="btn">Directions ↗</span>
+                <span class="btn">Share</span>
+              </div>
+              <div class="relative">
+                <span class="callout pin" style="left: -24px; top: 0">3</span>
+                <p class="h3">Activity over time</p>
+                <p class="muted small">Sightings per year, following the filters</p>
+                <div class="bars">
+                  <span style="height: 50%"></span><span style="height: 70%"></span
+                  ><span style="height: 40%"></span><span style="height: 80%"></span
+                  ><span style="height: 60%"></span><span style="height: 55%"></span
+                  ><span style="height: 75%"></span><span style="height: 45%"></span
+                  ><span style="height: 65%"></span><span style="height: 85%"></span
+                  ><span style="height: 50%"></span><span style="height: 60%"></span
+                  ><span style="height: 70%"></span>
+                </div>
+              </div>
+              <p class="h3">Species seen</p>
+              <div class="line w90"></div>
+              <div class="line w70"></div>
+              <div class="line w50"></div>
+              <p class="h3">Latest sightings</p>
+              <div class="line w90"></div>
+              <div class="line w90"></div>
+              <div class="relative">
+                <span class="callout pin" style="left: -24px; top: 0">4</span>
+                <p class="h3">Community reports</p>
+                <p class="muted small">
+                  Sent in by visitors. Not checked, and not counted in severity.
+                </p>
+                <div class="row" style="margin-top: 6px">
+                  <span class="placeholder" style="width: 44px; height: 44px">photo</span>
+                  <span>Marsh tick · 12 Oct<br /><span class="chip">Unverified</span></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ol class="notes">
+          <li>
+            <span class="callout">1</span>
+            <span
+              >Focus moves to the city's name when the panel opens. Escape or "All cities" closes it
+              and returns focus to where it came from.</span
+            >
+          </li>
+          <li>
+            <span class="callout">2</span>
+            <span
+              >Quick actions: report a sighting here (fills in the city), directions in Google Maps,
+              and share a link to this exact view.</span
+            >
+          </li>
+          <li>
+            <span class="callout">3</span>
+            <span>A timeline of sightings per year in this city, with a table view.</span>
+          </li>
+          <li>
+            <span class="callout">4</span>
+            <span
+              >Each section loads on its own, with its own loading and error state, so one failure
+              never blanks the whole panel.</span
+            >
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="board" id="insights">
+      <h2 class="board-title">3. Trends, seasons, species guide and prevention (desktop)</h2>
+      <p class="board-intro">Below the map, in the order people tend to ask the questions.</p>
+      <div class="layout">
+        <div class="screen">
+          <div class="page stack">
+            <p class="h2">Trends</p>
+            <div class="cols-2">
+              <div class="card relative">
+                <span class="callout pin" style="left: -10px; top: -10px">1</span>
+                <div class="row">
+                  <p class="h3 grow">Sightings over time</p>
+                  <span class="chip">Weekly</span><span class="chip on">Monthly</span
+                  ><span class="chip">Yearly</span>
+                </div>
+                <div class="placeholder" style="height: 120px; margin-top: 8px">line chart</div>
+                <p class="muted small" style="margin-top: 6px">
+                  Summary in words · Show as a table
+                </p>
+              </div>
+              <div class="card">
+                <p class="h3">Sightings by area</p>
+                <div class="placeholder" style="height: 120px; margin-top: 8px">
+                  bar chart, one bar per region
+                </div>
+                <p class="muted small" style="margin-top: 6px">Show as a table</p>
+              </div>
+            </div>
+            <p class="h2" style="margin-top: 14px">Seasonal activity</p>
+            <div class="card relative">
+              <span class="callout pin" style="left: -10px; top: -10px">2</span>
+              <div class="row">
+                <span class="label">City</span><span class="input">All cities ▾</span>
+                <span class="label">Year</span><span class="input">All years ▾</span>
+              </div>
+              <div class="message" style="margin-top: 8px; border: 1.5px solid #bbb">
+                <b>No clear seasonal pattern.</b> The months differ no more than chance would
+                explain.
+              </div>
+              <div class="bars" style="height: 110px; margin-top: 8px">
+                <span style="height: 82%"></span><span style="height: 78%"></span
+                ><span style="height: 85%"></span><span style="height: 80%"></span
+                ><span style="height: 84%"></span><span style="height: 79%"></span
+                ><span style="height: 83%"></span><span style="height: 88%"></span
+                ><span style="height: 81%"></span><span style="height: 80%"></span
+                ><span style="height: 84%"></span><span style="height: 76%"></span>
+              </div>
+              <p class="muted small" style="margin-top: 4px">
+                January to December, with a dashed line for the monthly average
+              </p>
+            </div>
+            <p class="h2" style="margin-top: 14px">Species identification guide</p>
+            <div class="cols-5 relative">
+              <span class="callout pin" style="left: -10px; top: -10px">3</span>
+              <div class="card small">
+                <span class="chip">F</span>
+                <p class="h3">Fox/badger tick</p>
+                <p class="italic muted">Ixodes canisuga</p>
+                <div class="line"></div>
+                <div class="line w70"></div>
+              </div>
+              <div class="card small">
+                <span class="chip">M</span>
+                <p class="h3">Marsh tick</p>
+                <p class="italic muted">Ixodes apronophorus</p>
+                <div class="line"></div>
+                <div class="line w70"></div>
+              </div>
+              <div class="card small">
+                <span class="chip">P</span>
+                <p class="h3">Passerine tick</p>
+                <p class="italic muted">Ixodes frontalis</p>
+                <div class="line"></div>
+                <div class="line w70"></div>
+              </div>
+              <div class="card small">
+                <span class="chip">S</span>
+                <p class="h3">Southern rodent tick</p>
+                <p class="italic muted">Ixodes acuminatus</p>
+                <div class="line"></div>
+                <div class="line w70"></div>
+              </div>
+              <div class="card small">
+                <span class="chip">T</span>
+                <p class="h3">Tree-hole tick</p>
+                <p class="italic muted">Ixodes arboricola</p>
+                <div class="line"></div>
+                <div class="line w70"></div>
+              </div>
+            </div>
+            <p class="h2" style="margin-top: 14px">Preventing tick bites</p>
+            <div class="cols-3">
+              <div class="card">
+                <p class="h3">Before you go out</p>
+                <div class="line"></div>
+              </div>
+              <div class="card">
+                <p class="h3">When you get back</p>
+                <div class="line"></div>
+              </div>
+              <div class="card">
+                <p class="h3">Removing a tick</p>
+                <div class="line"></div>
+              </div>
+              <div class="card">
+                <p class="h3">Protecting your pets</p>
+                <div class="line"></div>
+              </div>
+              <div class="card">
+                <p class="h3">When to get help</p>
+                <div class="line"></div>
+              </div>
+              <div class="card">
+                <p class="h3">Sources</p>
+                <div class="line"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ol class="notes">
+          <li>
+            <span class="callout">1</span>
+            <span
+              >Trend and area charts follow the map's filters. Every chart has a written summary and
+              a table view.</span
+            >
+          </li>
+          <li>
+            <span class="callout">2</span>
+            <span
+              >The seasonal chart has its own city and year dropdowns, and states its verdict in
+              words first: a flat chart is a finding, not a fault.</span
+            >
+          </li>
+          <li>
+            <span class="callout">3</span>
+            <span
+              >One card per species in the data: name, scientific name, how to recognise it, where
+              it lives and how often it was seen.</span
+            >
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="board" id="report">
+      <h2 class="board-title">4. Report a sighting: error, warning and success</h2>
+      <p class="board-intro">
+        Three kinds of message, each with its own colour, wording and place on the page.
+      </p>
+      <div class="layout">
+        <div class="cols-3 grow" style="align-items: start">
+          <div class="screen page stack">
+            <p class="h3 row"><span class="callout">E</span>Error: something must be fixed</p>
+            <div class="message error">
+              <p class="text-error">There is a problem</p>
+              <p><u>Enter the time you saw the tick</u></p>
+              <p><u>Choose the species of tick</u></p>
+            </div>
+            <div>
+              <p class="label">Date</p>
+              <div class="input">12/10/2026</div>
+            </div>
+            <div>
+              <p class="label">Time</p>
+              <p class="text-error small">Enter the time you saw the tick</p>
+              <div class="input invalid">--:--</div>
+            </div>
+            <div>
+              <p class="label">City</p>
+              <div class="row">
+                <div class="input grow">Manchester ▾</div>
+                <span class="btn">Use my location</span>
+              </div>
+            </div>
+            <div>
+              <p class="label">Species</p>
+              <p class="text-error small">Choose the species of tick</p>
+              <div class="cols-2">
+                <span class="input invalid">○ Fox/badger</span
+                ><span class="input invalid">○ Marsh</span>
+              </div>
+            </div>
+            <span class="btn primary">Send report</span>
+          </div>
+          <div class="screen page stack">
+            <p class="h3 row"><span class="callout">W</span>Warning: still sends</p>
+            <div>
+              <p class="label">Date</p>
+              <div class="input">02/06/2024</div>
+              <p class="text-warning small">
+                This is more than a year ago. Please check the date; you can still send the report.
+              </p>
+            </div>
+            <div>
+              <p class="label">Time</p>
+              <div class="input">09:15</div>
+            </div>
+            <div>
+              <p class="label">City</p>
+              <div class="input">Leeds ▾</div>
+              <p class="text-warning small">
+                The nearest city we track is Leeds, about 160 km away. Please check this is right.
+              </p>
+            </div>
+            <div>
+              <p class="label">Photo (optional)</p>
+              <div class="row">
+                <span class="placeholder" style="width: 56px; height: 56px">preview</span>
+                <span class="btn">Remove photo</span>
+              </div>
+            </div>
+            <span class="btn primary">Send report</span>
+          </div>
+          <div class="screen page stack">
+            <p class="h3 row"><span class="callout">S</span>Success: saved</p>
+            <div class="message success stack">
+              <p class="text-success">✓ Report sent. Thank you!</p>
+              <p>
+                Your report of a Marsh tick in Leeds has been saved. It now shows in Leeds's panel
+                as an unverified community report.
+              </p>
+              <div class="message warning">
+                <b class="text-warning">Please note</b>
+                <p>This sighting is more than a year old.</p>
+              </div>
+              <div class="row wrap">
+                <span class="btn primary">View Leeds on the map</span>
+                <span class="btn">Report another sighting</span>
+              </div>
+            </div>
+            <p class="muted small">The form is hidden; nothing typed was lost if sending failed.</p>
+          </div>
+        </div>
+        <ol class="notes">
+          <li>
+            <span class="callout">E</span>
+            <span
+              ><b>Errors</b> (red) appear after a first try at sending, as one summary that takes
+              focus, with each problem repeated by its field.</span
+            >
+          </li>
+          <li>
+            <span class="callout">W</span>
+            <span
+              ><b>Warnings</b> (amber) appear as soon as they apply and never block sending.</span
+            >
+          </li>
+          <li>
+            <span class="callout">S</span>
+            <span
+              ><b>Success</b> (green) says what was saved and where to see it, with any warnings
+              from the server.</span
+            >
+          </li>
+          <li>
+            <span class="callout">!</span>
+            <span
+              >If sending fails (network, server, rate limit), a message says why and offers "Try
+              again", with every answer kept.</span
+            >
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="board" id="phone">
+      <h2 class="board-title">5. Phone layout (about 360 px wide)</h2>
+      <p class="board-intro">Everything stacks into one column, in the same order as on desktop.</p>
+      <div class="layout">
+        <div class="row" style="align-items: flex-start; gap: 18px">
+          <div class="screen phone">
+            <div class="header">
+              <span class="logo">Tick Tracker</span><span class="btn">Menu</span>
+            </div>
+            <div class="page stack">
+              <p class="h2">Tick sightings across the UK</p>
+              <div class="cols-2">
+                <div class="tile">Sightings<b>1,000</b></div>
+                <div class="tile">Cities<b>14</b></div>
+                <div class="tile">Species<b>5</b></div>
+                <div class="tile">Years<b>2012–24</b></div>
+              </div>
+              <span class="btn row"><span class="callout">1</span>Show filters (2 active)</span>
+              <div class="map" style="height: 300px">
+                <svg viewBox="0 0 320 545"><use href="#uk-map" /></svg>
+              </div>
+            </div>
+          </div>
+          <div class="screen phone">
+            <div class="page stack">
+              <p class="h3 row"><span class="callout">2</span>Cities, most active first</p>
+              <div class="city">
+                <span class="swatch high"></span>Nottingham<span class="grow"></span>95
+              </div>
+              <div class="city">
+                <span class="swatch high"></span>Manchester<span class="grow"></span>72
+              </div>
+              <div class="city">
+                <span class="swatch medium"></span>London<span class="grow"></span>76
+              </div>
+              <div class="city muted">… 11 more</div>
+              <div class="card stack">
+                <span class="btn">← All cities</span>
+                <p class="h2">Manchester</p>
+                <p><span class="swatch high"></span> <b>High severity</b></p>
+                <span class="btn primary" style="text-align: center">Report a sighting here</span>
+                <div class="row">
+                  <span class="btn grow">Directions ↗</span><span class="btn grow">Share</span>
+                </div>
+                <div class="bars" style="height: 60px">
+                  <span style="height: 50%"></span><span style="height: 70%"></span
+                  ><span style="height: 40%"></span><span style="height: 80%"></span
+                  ><span style="height: 60%"></span><span style="height: 55%"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="screen phone">
+            <div class="page stack">
+              <p class="h2 row"><span class="callout">3</span>Report a sighting</p>
+              <div>
+                <p class="label">Date</p>
+                <div class="input">dd/mm/yyyy</div>
+              </div>
+              <div>
+                <p class="label">Time</p>
+                <div class="input">--:--</div>
+              </div>
+              <div>
+                <p class="label">City</p>
+                <div class="input">Choose a city ▾</div>
+                <span class="btn" style="margin-top: 6px">Use my location</span>
+              </div>
+              <div>
+                <p class="label">Species</p>
+                <div class="input" style="margin-bottom: 4px">○ Fox/badger tick</div>
+                <div class="input">○ Marsh tick</div>
+              </div>
+              <div>
+                <p class="label">Notes (optional)</p>
+                <div class="input tall"></div>
+              </div>
+              <span class="btn primary" style="text-align: center">Send report</span>
+            </div>
+          </div>
+        </div>
+        <ol class="notes">
+          <li>
+            <span class="callout">1</span>
+            <span
+              >The navigation folds into a Menu button, and the filters fold behind "Show filters",
+              which counts the ones in use.</span
+            >
+          </li>
+          <li>
+            <span class="callout">2</span>
+            <span
+              >The city list sits under the map, so a tap target is always big enough even where
+              markers overlap.</span
+            >
+          </li>
+          <li>
+            <span class="callout">3</span>
+            <span
+              >Form fields go full width, buttons are large enough to tap, and nothing scrolls
+              sideways, down to 320 px.</span
+            >
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="board" id="states">
+      <h2 class="board-title">6. Loading, empty and error states</h2>
+      <p class="board-intro">
+        Every box that loads data has all three, so no part of the page is ever blank without a
+        reason.
+      </p>
+      <div class="layout">
+        <div class="cols-3 grow">
+          <div class="card placeholder stack" style="height: 200px; flex-direction: column">
+            <span class="spinner"></span>
+            <p class="row"><span class="callout">1</span><b>Loading sightings…</b></p>
+            <p class="small">
+              On the map and charts, the previous result stays visible, dimmed, while it updates.
+            </p>
+          </div>
+          <div class="card placeholder stack" style="height: 200px; flex-direction: column">
+            <p class="row"><span class="callout">2</span><b>No sightings match these filters</b></p>
+            <p class="small">Try a wider date range, or fewer species or severity levels.</p>
+            <span class="btn">Reset filters</span>
+          </div>
+          <div class="card placeholder stack" style="height: 200px; flex-direction: column">
+            <p class="row">
+              <span class="callout">3</span
+              ><span class="text-error">Couldn't load the sightings</span>
+            </p>
+            <p class="small">Can't reach the Tick Tracker server. Check your connection.</p>
+            <span class="btn">Try again</span>
+          </div>
+        </div>
+        <ol class="notes">
+          <li>
+            <span class="callout">1</span>
+            <span
+              ><b>Loading</b> is announced to screen readers. The map and charts keep showing the
+              last result, dimmed, until the new one arrives.</span
+            >
+          </li>
+          <li>
+            <span class="callout">2</span>
+            <span><b>Empty</b> says why and offers the way out.</span>
+          </li>
+          <li>
+            <span class="callout">3</span>
+            <span
+              ><b>Error</b> says what failed in plain words and offers to try again. A chart whose
+              library failed to load falls back to its table.</span
+            >
+          </li>
+        </ol>
+      </div>
+    </section>
+  </body>
+</html>
