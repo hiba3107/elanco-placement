@@ -31,7 +31,7 @@ words: it should sound like you explaining your project, not reading a script.
 
 ## 1. Introduction (0:00 to 0:30)
 
-**Show:** the page at the top, with the headline numbers.
+**Show:** the top of the page: the welcome, the drawing and the line of key numbers.
 
 - Your name, your course and year, and that this is the full-stack technical task.
 - One sentence on what Tick Tracker does: it turns Elanco's tick sightings into a map, charts and
@@ -158,7 +158,7 @@ ELANCO_API_URL=https://elanco.invalid/data/tick-sightings npm start
 
 **Show:** run `npm run check` in the terminal, then the page in the browser's phone view.
 
-- 299 tests, none of which need the network. They run every line of the cleaning, filtering,
+- 300 tests, none of which need the network. They run every line of the cleaning, filtering,
   severity and aggregation code, and every endpoint.
 - The page was checked with axe-core against WCAG 2.2 AA, works fully by keyboard, and never shows
   severity by colour alone.

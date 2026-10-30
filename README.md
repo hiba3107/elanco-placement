@@ -44,8 +44,8 @@ Every item in the brief is built, for the full-stack variant.
 | **Sighting details**    | A **detail panel** opens when a marker or list row is chosen                                                                                                                                              |
 |                         | A **timeline** chart of sightings per year in that city, plus its species mix and latest sightings                                                                                                        |
 |                         | **Quick actions**: report a sighting here, get directions, share                                                                                                                                          |
-| **Educational content** | A **species identification guide** built from the five species in the data                                                                                                                                |
-|                         | **Prevention tips** based on NHS and UK Health Security Agency guidance                                                                                                                                   |
+| **Educational content** | A **species identification guide** built from the five species in the data, each with an original drawing                                                                                                 |
+|                         | **Prevention tips** as a numbered checklist, based on NHS and UK Health Security Agency guidance                                                                                                          |
 |                         | A **seasonal activity chart** with city and year dropdowns, and an honest verdict on whether there is a seasonal pattern at all                                                                           |
 | **Report a sighting**   | A form for date, time, city, species and notes                                                                                                                                                            |
 |                         | **Validation** with distinct error (red), warning (amber) and success (green) messages                                                                                                                    |
@@ -134,7 +134,7 @@ npm run check
 
 `npm run check` runs ESLint, Prettier's formatting check and every test in one go.
 
-There are **299 tests**, all run with Node's built-in test runner. None of them touch the network:
+There are **300 tests**, all run with Node's built-in test runner. None of them touch the network:
 they use small fixtures, including one of 33 deliberately broken records, each labelled with what is
 wrong with it. Coverage of the API's source code is about 99% of lines and 96% of branches, and every
 line of the cleaning, filtering, severity and aggregation code is covered.
@@ -204,6 +204,13 @@ and a single `npm start` runs everything.
 **Few dependencies.** The server needs only `express` and `multer` (for photo uploads). The page
 loads Leaflet, Chart.js and Tailwind from CDNs, pinned to exact versions with subresource-integrity
 hashes. Development uses ESLint, Prettier and Node's built-in test runner.
+
+**Look and feel.** The page aims to feel like a friendly pet-care guide: a soft cream background,
+deep teal for buttons and links, and sage as a decorative accent. Sage stays off the map, because
+for red-green colour-blind visitors it is hard to tell from the lightest severity colour; terracotta
+was ruled out for the same reason. Headings use Nunito and body text Source Sans 3, both served from
+this site under the Open Font License. The drawings are original SVGs in `web/images`, listed in
+[`web/images/CREDITS.md`](web/images/CREDITS.md), which also explains how to add real photos.
 
 ## Data handling
 
@@ -326,7 +333,11 @@ ever left blank without an explanation.
   fields.
 - Severity is never shown by colour alone. It uses a single-hue scale that also reads by lightness
   (for colour-blind visitors and in greyscale), and it is always written in words too.
-- Text meets WCAG AA contrast, and motion is turned off for visitors who ask for reduced motion.
+- Text meets WCAG AA contrast, checked pair by pair for the whole palette and again by axe-core on
+  the rendered page. Motion is turned off for visitors who ask for reduced motion.
+- The drawings are decorative and have empty alt text, because the words beside them say the same.
+  Longer explanations sit in native "Learn more" sections (`<details>`), which work with a keyboard
+  and a screen reader.
 - The layout works from 320px phones to desktops with no sideways scrolling.
 - Checked with axe-core against WCAG 2.2 AA in each main state of the page, with no violations on
   desktop. On a phone some markers overlap, because nearby cities are tens of kilometres apart at that
@@ -345,6 +356,7 @@ ever left blank without an explanation.
   location where it was taken. "Use my location" only picks the nearest city in the browser; the
   position is never sent.
 - Reports ask for no personal details, and posting is rate limited per visitor.
+- The fonts are served from this site, so visitors' browsers make no requests to Google Fonts.
 
 ## API
 
@@ -382,11 +394,13 @@ api/
     middleware/        errors, 404s, "data not ready", security headers, rate limit
     lib/               dates, retry, name matching, JSON files, collections
     reference/         the 14 cities and the 5 species
-  test/                299 tests, fixtures and helpers (web/ holds the page's tests)
+  test/                300 tests, fixtures and helpers (web/ holds the page's tests)
   data/                created at runtime: snapshot, reports and photos (not in git)
 web/
   index.html           the page
-  css/styles.css       colour tokens and the map's marker styles
+  css/styles.css       colour tokens, the map's marker styles and the page's own components
+  css/fonts.css        the self-hosted fonts (files and licences in fonts/)
+  images/              the original drawings, and CREDITS.md for adding photos
   js/main.js           start-up: checks the server and builds each part of the page
   js/api.js            the only code that talks to the server
   js/map/  cities/  filters/  insights/  seasonal/  guide/  report/  about/  charts/  ui/
@@ -410,6 +424,9 @@ docs/                  architecture, API reference, wireframes, video outline
 - Sighting data: Elanco's tick sightings API.
 - Map data and map tiles © [OpenStreetMap](https://www.openstreetmap.org/copyright) contributors,
   from OpenStreetMap's standard tile server.
+- Fonts: [Nunito](https://github.com/googlefonts/nunito) and
+  [Source Sans 3](https://github.com/adobe-fonts/source-sans), under the SIL Open Font License.
+- Drawings: original, made for this project. See [`web/images/CREDITS.md`](web/images/CREDITS.md).
 - Species notes: the UK Health Security Agency's
   [tick species profiles](https://www.gov.uk/guidance/tick-species-profiles) and published research.
 - Prevention advice: the [NHS](https://www.nhs.uk/conditions/lyme-disease/) and the UK Health

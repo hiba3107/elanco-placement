@@ -88,21 +88,24 @@ Two habits run through the backend:
 The page is one HTML file and a set of ES modules that the browser loads directly, with no framework
 and no build step. Each folder is one part of the page.
 
-| Module                   | Job                                                                                       |
-| ------------------------ | ----------------------------------------------------------------------------------------- |
-| `main.js`                | Start-up: asks the server what data it has, builds each part, keeps checking until ready  |
-| `api.js`                 | The only code that calls the server; turns every failure into a message fit to show       |
-| `state.js`               | Two small stores, the filters and the chosen city, mirrored in the address bar            |
-| `map/`                   | The Leaflet map, its markers and legend, and the view that loads the map's data           |
-| `cities/`                | The city list beside the map and the city detail panel with its timeline                  |
-| `filters/`               | The filter form: dates, quick ranges, species, severity                                   |
-| `insights/`, `seasonal/` | The trend, per-region and seasonal charts                                                 |
-| `guide/`, `content/`     | The species guide and the hand-written notes about each species                           |
-| `report/`                | The report form: checks, messages, photo preparation, "use my location", sending          |
-| `about/`                 | The severity explanation and the data-quality report                                      |
-| `charts/`                | Chart.js defaults and a chart panel with loading, empty, error and table views            |
-| `ui/`                    | The shared loading, empty and error states, the data banner, navigation, headline numbers |
-| `dom.js`, `format.js`    | Building elements safely, and formatting dates and numbers for UK readers                 |
+| Module                   | Job                                                                                      |
+| ------------------------ | ---------------------------------------------------------------------------------------- |
+| `main.js`                | Start-up: asks the server what data it has, builds each part, keeps checking until ready |
+| `api.js`                 | The only code that calls the server; turns every failure into a message fit to show      |
+| `state.js`               | Two small stores, the filters and the chosen city, mirrored in the address bar           |
+| `map/`                   | The Leaflet map, its markers and legend, and the view that loads the map's data          |
+| `cities/`                | The city list beside the map and the city detail panel with its timeline                 |
+| `filters/`               | The filter form: dates, quick ranges, species, severity                                  |
+| `insights/`, `seasonal/` | The trend, per-region and seasonal charts                                                |
+| `guide/`, `content/`     | The species guide and the hand-written notes about each species                          |
+| `report/`                | The report form: checks, messages, photo preparation, "use my location", sending         |
+| `about/`                 | The severity explanation and the data-quality report                                     |
+| `charts/`                | Chart.js defaults and a chart panel with loading, empty, error and table views           |
+| `ui/`                    | The shared loading, empty and error states, the data banner, navigation, the key numbers |
+| `dom.js`, `format.js`    | Building elements safely, and formatting dates and numbers for UK readers                |
+
+Alongside the modules, `css/fonts.css` and `fonts/` hold the self-hosted fonts, and `images/` holds
+the original drawings, with their credits in `images/CREDITS.md`.
 
 When a filter changes, `filters/filterPanel.js` updates `filtersStore`. The map and the trend and region
 charts are subscribed to it, so each one reloads its own data. Each view runs its requests through
@@ -279,6 +282,11 @@ data.
   everything.
 - **The filters and the chosen city live in the address bar**, so "Share" can share a link that
   reopens exactly the same view.
+- **Fonts are served from this site.** _Instead of_ Google Fonts, which would tell Google about
+  every visitor and need the Content Security Policy opened to two more hosts.
+- **Sage is decoration only.** The palette's warm accent stays off the map, because under
+  red-green colour blindness it is hard to tell from the lightest severity colour. _Instead of_
+  terracotta, which shares the severity colours' hue.
 
 ## Error handling, layer by layer
 
