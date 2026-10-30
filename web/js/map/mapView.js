@@ -143,8 +143,21 @@ export function createMapView(meta, { onData }) {
     markSelectedCity(listView, city);
   });
 
+  // Before Elanco's data is available: a spinner while it loads, or the
+  // reason it is missing (error) with a way to check again.
+  function showWaiting(error, onRetry) {
+    const state = () =>
+      error
+        ? errorState({ title: "No tick data to show yet", error, onRetry })
+        : loadingState("Waiting for tick data from Elanco…");
+    summary.textContent = "";
+    showMapOverlay(state());
+    listView.replaceChildren(state());
+  }
+
   return {
     load,
+    showWaiting,
     findLocation: (city) =>
       latest?.locations.find((location) => location.location === city) ?? null,
     focusCity: (city) => map?.focusCity(city),

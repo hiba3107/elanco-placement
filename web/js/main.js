@@ -1,8 +1,16 @@
+import {
+  loadDataQuality,
+  renderSeverityExplainer,
+  showDataQualityWaiting,
+} from "./about/aboutData.js";
 import { api } from "./api.js";
-import { applyChartDefaults, isChartLibraryLoaded } from "./charts/theme.js";
+import { applyChartDefaults, isChartLibraryLoaded, registerChartPlugins } from "./charts/theme.js";
 import { createCityPanel } from "./cities/cityPanel.js";
-import { initFilterPanel } from "./filters/filterPanel.js";
+import { initFilterPanel, setFilterDateRange } from "./filters/filterPanel.js";
+import { createSpeciesGuide } from "./guide/speciesGuide.js";
+import { createInsightsView } from "./insights/insightsView.js";
 import { createMapView } from "./map/mapView.js";
+import { createSeasonalView } from "./seasonal/seasonalView.js";
 import { filtersStore, selectedCityStore } from "./state.js";
 import { createDataBanner } from "./ui/dataBanner.js";
 import { initNavigation } from "./ui/navigation.js";
@@ -16,6 +24,11 @@ const RECHECK_DELAYS_MS = {
   serverDown: 15_000,
 };
 
+const DATA_UNAVAILABLE = {
+  message:
+    "Elanco's service can't be reached, so there is nothing to show yet. This fills in by itself once it is back.",
+};
+
 const overview = document.getElementById("overview-stats");
 const filterNotice = document.getElementById("filter-notice");
 const renderBanner = createDataBanner(document.getElementById("data-banner"), {
@@ -23,7 +36,6 @@ const renderBanner = createDataBanner(document.getElementById("data-banner"), {
 });
 
 let recheckTimer = null;
-let controlsBuilt = false;
 let views = null;
 let shownStatus = null;
 
@@ -46,23 +58,19 @@ function checkLinkedCity(meta) {
   }
 }
 
-// Controls only need the reference data, so they are built as soon as the
-// server answers, even if Elanco's data is not available yet.
-function buildControls(meta) {
-  if (controlsBuilt) {
-    return;
-  }
-  controlsBuilt = true;
+// Everything that only needs the reference data is built as soon as the
+// server answers, even if Elanco's data is not available yet: the map, the
+// filters, the species guide and the chart frames.
+function createViews(meta) {
   if (isChartLibraryLoaded()) {
     applyChartDefaults();
+    registerChartPlugins();
   }
   checkLinkedCity(meta);
   initFilterPanel(meta);
-}
 
-function createViews(meta) {
-  let firstLoad = true;
-  const created = {};
+  const created = { guide: createSpeciesGuide(meta) };
+  let firstMapLoad = true;
   created.panel = createCityPanel({
     locations: meta.locations,
     findSummary: (city) => created.map.findLocation(city),
@@ -70,15 +78,21 @@ function createViews(meta) {
   created.map = createMapView(meta, {
     onData: () => {
       const city = selectedCityStore.get();
-      if (firstLoad && city) {
+      if (firstMapLoad && city) {
         created.panel.open(city, { moveFocus: false });
       } else {
         created.panel.refresh();
       }
-      firstLoad = false;
+      firstMapLoad = false;
     },
   });
-  filtersStore.subscribe(() => created.map.load());
+  created.insights = createInsightsView();
+  created.seasonal = createSeasonalView(meta);
+
+  filtersStore.subscribe(() => {
+    created.map.load();
+    created.insights.load();
+  });
   selectedCityStore.subscribe((city) => {
     if (city) {
       created.panel.open(city, { moveFocus: true });
@@ -89,9 +103,24 @@ function createViews(meta) {
   return created;
 }
 
-function loadDataViews(meta) {
-  views ??= createViews(meta);
-  views.map.load();
+// Runs whenever the server reports a different data status.
+function showDataStatus(meta) {
+  const { status, dateRange } = meta.data;
+  renderSeverityExplainer(meta.severityRule, dateRange);
+  if (hasData(status)) {
+    setFilterDateRange(dateRange);
+    views.map.load();
+    views.insights.load();
+    views.seasonal.load(dateRange);
+    views.guide.loadNumbers();
+    loadDataQuality();
+    return;
+  }
+  const error = status === "unavailable" ? DATA_UNAVAILABLE : null;
+  for (const view of [views.map, views.insights, views.seasonal, views.guide]) {
+    view.showWaiting(error, checkServer);
+  }
+  showDataQualityWaiting(error, checkServer);
 }
 
 // Asks the server what data it has. While Elanco is loading, stale or down,
@@ -102,11 +131,11 @@ async function checkServer() {
     const { status } = meta.data;
     renderBanner({ dataState: meta.data });
     renderOverview(overview, meta);
-    buildControls(meta);
-    if (hasData(status) && status !== shownStatus) {
-      loadDataViews(meta);
+    views ??= createViews(meta);
+    if (status !== shownStatus) {
+      shownStatus = status;
+      showDataStatus(meta);
     }
-    shownStatus = status;
     if (status in RECHECK_DELAYS_MS) {
       scheduleRecheck(RECHECK_DELAYS_MS[status]);
     }

@@ -134,6 +134,19 @@ function closeSpeciesMenuOnOutsideClick(event) {
   }
 }
 
+// The date limits and quick ranges depend on the data's date range, which is
+// only known once Elanco's data has loaded.
+export function setFilterDateRange(range) {
+  if (!range || presets.length > 0) {
+    return;
+  }
+  fromInput.min = toInput.min = range.earliest;
+  fromInput.max = toInput.max = range.latest;
+  presets = buildPresets(range);
+  presetGroup.replaceChildren(...presets.map(presetButton));
+  updateSummaries(filtersStore.get());
+}
+
 /**
  * Builds the filter controls from the reference data and keeps them in sync
  * with the shared filters. Values from the address bar are checked first: an
@@ -141,13 +154,7 @@ function closeSpeciesMenuOnOutsideClick(event) {
  */
 export function initFilterPanel(meta) {
   speciesOptions.replaceChildren(...meta.species.map(speciesOption));
-  const range = meta.data.dateRange;
-  if (range) {
-    fromInput.min = toInput.min = range.earliest;
-    fromInput.max = toInput.max = range.latest;
-    presets = buildPresets(range);
-    presetGroup.replaceChildren(...presets.map(presetButton));
-  }
+  setFilterDateRange(meta.data.dateRange);
 
   const { filters, changed } = sanitiseFilters(
     filtersStore.get(),

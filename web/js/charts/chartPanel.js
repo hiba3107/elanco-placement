@@ -56,16 +56,18 @@ function buildTable({ caption, columns, rows }) {
  * is shown open instead, so the numbers are never lost.
  *
  * The caller supplies chartConfig(data), table(data) and summary(data), plus
- * isEmpty(data) and emptyMessage.
+ * isEmpty(data) and emptyMessage, and optionally caption(data) for a line of
+ * text under the chart.
  */
 export function createChartPanel(
   container,
-  { height = "h-64", chartConfig, table, summary, isEmpty, emptyMessage },
+  { height = "h-64", chartConfig, table, summary, caption, isEmpty, emptyMessage },
 ) {
   const canChart = isChartLibraryLoaded();
   const canvas = h("canvas", { role: "img" });
   const chartBox = h("div", { class: `relative ${height}` }, canvas);
   const status = h("div");
+  const captionLine = h("p", { class: "mt-2 text-sm text-ink-soft" });
   const tableBody = h("div", { class: "mt-2 max-h-72 overflow-auto" });
   const details = h(
     "details",
@@ -84,7 +86,7 @@ export function createChartPanel(
         { class: "text-sm text-ink-muted" },
         "The chart library did not download, so the data is shown as a table.",
       );
-  container.replaceChildren(status, ...(canChart ? [chartBox] : [notice]), details);
+  container.replaceChildren(status, ...(canChart ? [chartBox] : [notice]), captionLine, details);
 
   let chart = null;
   let hasRendered = false;
@@ -92,6 +94,7 @@ export function createChartPanel(
   function showStatus(content) {
     status.replaceChildren(...(content ? [content] : []));
     chartBox.hidden = Boolean(content);
+    captionLine.hidden = Boolean(content) || !caption;
     details.hidden = Boolean(content);
     if (notice) {
       notice.hidden = Boolean(content);
@@ -132,6 +135,7 @@ export function createChartPanel(
       }
       showStatus(null);
       canvas.setAttribute("aria-label", summary(data));
+      captionLine.textContent = caption ? caption(data) : "";
       tableBody.replaceChildren(buildTable(table(data)));
       if (canChart) {
         drawChart(data);

@@ -45,6 +45,7 @@ const ukClock = new Intl.DateTimeFormat("en-GB", {
   minute: "2-digit",
 });
 const numberFormat = new Intl.NumberFormat("en-GB");
+const decimalFormat = new Intl.NumberFormat("en-GB", { maximumFractionDigits: 1 });
 
 export function parseWallClock(text) {
   return new Date(`${text.length === 10 ? `${text}T00:00:00` : text}Z`);
@@ -68,6 +69,10 @@ export function formatInstant(isoText) {
 
 export function formatNumber(value) {
   return numberFormat.format(value);
+}
+
+export function formatDecimal(value) {
+  return decimalFormat.format(value);
 }
 
 export function formatPercent(share) {

@@ -1,3 +1,5 @@
+import { formatNumber } from "../format.js";
+
 // Shared look for every chart: one blue series, thin bars with rounded tops,
 // 2px lines over a faint wash, and hairline gridlines that stay in the
 // background. Values and labels use the page's text colours, never the series
@@ -81,4 +83,61 @@ export function categoryAxis() {
     border: { color: CHART_COLOURS.axis },
     ticks: { maxRotation: 0, autoSkipPadding: 12 },
   };
+}
+
+// Writes each bar's value just past its end, so horizontal bar charts can be
+// read without hovering. Turned on per chart with plugins.barValueLabels.
+const barValueLabels = {
+  id: "barValueLabels",
+  defaults: { display: false },
+  afterDatasetsDraw(chart, args, options) {
+    if (!options.display) {
+      return;
+    }
+    const { ctx } = chart;
+    const values = chart.data.datasets[0].data;
+    ctx.save();
+    ctx.fillStyle = CHART_COLOURS.ink;
+    ctx.font = `600 12px ${Chart.defaults.font.family}`;
+    ctx.textBaseline = "middle";
+    chart.getDatasetMeta(0).data.forEach((bar, index) => {
+      ctx.fillText(formatNumber(values[index]), bar.x + 6, bar.y);
+    });
+    ctx.restore();
+  },
+};
+
+// Draws a labelled horizontal line, such as the average month on the
+// seasonal chart. Turned on per chart with plugins.referenceLine.
+const referenceLine = {
+  id: "referenceLine",
+  defaults: { value: null, label: "" },
+  afterDatasetsDraw(chart, args, options) {
+    if (options.value === null) {
+      return;
+    }
+    const { ctx, chartArea, scales } = chart;
+    const y = scales.y.getPixelForValue(options.value);
+    ctx.save();
+    ctx.strokeStyle = CHART_COLOURS.reference;
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(chartArea.left, y);
+    ctx.lineTo(chartArea.right, y);
+    ctx.stroke();
+    // The label gets a white backing so it stays readable where it crosses a bar.
+    ctx.font = `600 12px ${Chart.defaults.font.family}`;
+    const width = ctx.measureText(options.label).width;
+    ctx.fillStyle = "rgba(255, 255, 255, 0.92)";
+    ctx.fillRect(chartArea.right - width - 6, y - 20, width + 6, 16);
+    ctx.fillStyle = CHART_COLOURS.reference;
+    ctx.textAlign = "right";
+    ctx.textBaseline = "bottom";
+    ctx.fillText(options.label, chartArea.right - 3, y - 6);
+    ctx.restore();
+  },
+};
+
+export function registerChartPlugins() {
+  Chart.register(barValueLabels, referenceLine);
 }
