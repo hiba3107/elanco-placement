@@ -415,11 +415,8 @@ web/
 docs/                  architecture, API reference, wireframes, video outline
 ```
 
-## How I used AI
 
-> **TODO (Hibatallah):** write this section in your own words. For example: what you asked Claude
-> to do and what you decided yourself, how you checked its work, where you disagreed with it or
-> changed direction, and what you learned from working this way.
+
 
 ## What I would do differently with more time
 
