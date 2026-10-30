@@ -1,5 +1,6 @@
 import { h } from "../dom.js";
 import { emptyState, errorState, loadingState, setRefreshing } from "../ui/status.js";
+import { createChartHolder } from "./chartInstance.js";
 import { isChartLibraryLoaded } from "./theme.js";
 
 function buildTable({ caption, columns, rows }) {
@@ -94,7 +95,7 @@ export function createChartPanel(
       );
   container.replaceChildren(status, ...(canChart ? [chartBox] : [notice]), captionLine, details);
 
-  let chart = null;
+  const chart = canChart ? createChartHolder(canvas, window.Chart) : null;
   let hasRendered = false;
 
   function showStatus(content) {
@@ -104,18 +105,6 @@ export function createChartPanel(
     details.hidden = Boolean(content);
     if (notice) {
       notice.hidden = Boolean(content);
-    }
-  }
-
-  function drawChart(data) {
-    const config = chartConfig(data);
-    if (chart && chart.config.type === config.type) {
-      chart.data = config.data;
-      chart.options = config.options;
-      chart.update();
-    } else {
-      chart?.destroy();
-      chart = new Chart(canvas, config);
     }
   }
 
@@ -146,7 +135,7 @@ export function createChartPanel(
       tableBody.setAttribute("aria-label", tableData.caption);
       tableBody.replaceChildren(buildTable(tableData));
       if (canChart) {
-        drawChart(data);
+        chart.draw(chartConfig(data));
       }
     },
   };
