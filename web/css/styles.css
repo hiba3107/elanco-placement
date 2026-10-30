@@ -453,3 +453,10 @@ details > summary::-webkit-details-marker {
   width: 5.5rem;
   height: 5.5rem;
 }
+
+.good-to-know {
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: var(--surface);
+}

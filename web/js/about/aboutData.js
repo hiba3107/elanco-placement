@@ -10,6 +10,15 @@ function percent(ratio) {
   return `${Math.round(Math.abs(ratio - 1) * 100)}%`;
 }
 
+function learnMore(summary, ...content) {
+  return h(
+    "details",
+    { class: "learn-more" },
+    h("summary", {}, summary),
+    h("div", { class: "learn-more__body" }, ...content),
+  );
+}
+
 // The severity rule in plain words, built from the numbers the server
 // actually uses, so the explanation can never drift from the code.
 export function renderSeverityExplainer(rule, dateRange) {
@@ -18,41 +27,35 @@ export function renderSeverityExplainer(rule, dateRange) {
     h(
       "p",
       {},
-      "Elanco's data has no severity field, so Tick Tracker works it out from the sightings:",
+      "Recent sightings count for more than old ones, and each city is compared with the typical city. So severity shows where activity is higher than elsewhere, not an absolute risk.",
     ),
-    h(
-      "ol",
-      { class: "list-decimal space-y-2 pl-5" },
+    learnMore(
+      "Learn more about the method",
       h(
-        "li",
-        {},
-        `Each sighting is weighted by its age. One on the reference date counts 1, one a year older counts 0.5, two years older 0.25, and so on: a ${Math.round(rule.halfLifeDays / 30.4)}-month half-life, about one tick season.`,
+        "ol",
+        { class: "list-decimal space-y-2 pl-5" },
+        h(
+          "li",
+          {},
+          `Each sighting is weighted by its age: 1 on the reference date, 0.5 a year older, 0.25 two years older, and so on (a ${Math.round(rule.halfLifeDays / 30.4)}-month half-life).`,
+        ),
+        h("li", {}, "A city's score is the total of its weights."),
+        h(
+          "li",
+          {},
+          `At least ${percent(rule.highAtOrAbove)} above the median city is high, at least ${percent(rule.lowAtOrBelow)} below is low, and anything between is medium.`,
+        ),
       ),
       h(
-        "li",
+        "p",
         {},
-        "A city's score is the total of its weights, so it rises with both how many sightings there are and how recent they are.",
+        `The reference date is the end of the period you choose, or the newest sighting${newest}. Measuring from today would make every sighting look years old.`,
       ),
       h(
-        "li",
+        "p",
         {},
-        `Each city is compared with the median city. At least ${percent(rule.highAtOrAbove)} above it is high, at least ${percent(rule.lowAtOrBelow)} below it is low, and anything in between is medium.`,
+        "Why not just count sightings? Old ones would count as much as new ones. Why not use only the latest sighting? One stray record would turn a quiet city red. Weighting by recency uses both.",
       ),
-    ),
-    h(
-      "p",
-      {},
-      `The reference date is the end of the period you choose, or the newest sighting in the data${newest}. Measuring from today would make every sighting look years old.`,
-    ),
-    h(
-      "p",
-      {},
-      "Why not just count sightings? Old ones would count as much as new ones, so a city that was busy years ago would still look high. Why not use only the latest sighting? One stray record would turn a quiet city red. Weighting by recency uses both.",
-    ),
-    h(
-      "p",
-      {},
-      "Because cities are compared with each other, severity shows where activity is higher than elsewhere, not an absolute risk level.",
     ),
   );
 }
@@ -87,11 +90,14 @@ function qualityContent(report) {
     {},
     h(
       "p",
-      { class: "text-ink-soft" },
+      { class: "mb-3 text-ink-soft" },
       `${plural(report.received, "record")} from ${source}, fetched ${fetched}. ${formatNumber(report.kept)} were used: ${formatNumber(report.removed)} removed and ${formatNumber(report.corrected)} corrected.`,
     ),
-    reasonsTable("Checks that remove a record", report.removedByReason),
-    reasonsTable("Fixes applied to a kept record", report.correctionsByType),
+    learnMore(
+      "Learn more about each check",
+      reasonsTable("Checks that remove a record", report.removedByReason),
+      reasonsTable("Fixes applied to a kept record", report.correctionsByType),
+    ),
   );
 }
 

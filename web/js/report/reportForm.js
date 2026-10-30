@@ -45,7 +45,7 @@ function speciesChoice(species, index) {
   const notes = speciesNotes(species.name);
   return h(
     "label",
-    { class: "choice-chip !items-start" },
+    { class: "choice-chip !items-start !rounded-2xl" },
     h("input", {
       type: "radio",
       name: "species",
