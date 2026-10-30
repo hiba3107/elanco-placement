@@ -48,6 +48,15 @@ describe("cross-cutting behaviour", () => {
     assert.equal(response.headers.get("x-powered-by"), null);
   });
 
+  it("lets the page load OpenStreetMap's map tiles", async () => {
+    const response = await app.get("/api/health");
+
+    assert.match(
+      response.headers.get("content-security-policy"),
+      /img-src [^;]*https:\/\/tile\.openstreetmap\.org/,
+    );
+  });
+
   it("answers unknown API paths with a JSON 404", async () => {
     const response = await app.get("/api/nothing-here");
     const body = await response.json();

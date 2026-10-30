@@ -13,9 +13,11 @@ const UK_BOUNDS = [
 ];
 // Extra room at the bottom keeps markers clear of the attribution line.
 const FIT_PADDING = { paddingTopLeft: [28, 28], paddingBottomRight: [28, 52] };
-const TILE_URL = "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png";
+// OpenStreetMap's own tile server. Its usage policy allows light use like this
+// app's, provided the attribution below is shown.
+const TILE_URL = "https://tile.openstreetmap.org/{z}/{x}/{y}.png";
 const TILE_ATTRIBUTION =
-  '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>';
+  '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 
 export function isMapLibraryLoaded() {
   return typeof window.L !== "undefined";
@@ -58,7 +60,6 @@ export function createCityMap(element, { cities, onSelect, onTileError }) {
 
   const tiles = L.tileLayer(TILE_URL, {
     attribution: TILE_ATTRIBUTION,
-    subdomains: "abcd",
     maxZoom: 19,
   }).addTo(map);
   tiles.once("tileerror", onTileError);

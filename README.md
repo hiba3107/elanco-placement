@@ -407,8 +407,8 @@ docs/                  architecture, API reference, wireframes, video outline
 ## Credits
 
 - Sighting data: Elanco's tick sightings API.
-- Map data © [OpenStreetMap](https://www.openstreetmap.org/copyright) contributors; map tiles ©
-  [CARTO](https://carto.com/attributions).
+- Map data and map tiles © [OpenStreetMap](https://www.openstreetmap.org/copyright) contributors,
+  from OpenStreetMap's standard tile server.
 - Species notes: the UK Health Security Agency's
   [tick species profiles](https://www.gov.uk/guidance/tick-species-profiles) and published research.
 - Prevention advice: the [NHS](https://www.nhs.uk/conditions/lyme-disease/) and the UK Health
