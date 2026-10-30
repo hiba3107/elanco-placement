@@ -78,7 +78,7 @@ describe("dates on the page", () => {
 describe("map markers", () => {
   it("scales the circle's area, not its width, with the number of sightings", () => {
     assert.equal(markerSize(100, 100), 38);
-    assert.equal(markerSize(25, 100), 22);
+    assert.equal(markerSize(25, 100), 24);
     assert.equal(markerSize(64, 100), 30);
   });
 

@@ -3,7 +3,7 @@ import { h } from "../dom.js";
 import { formatDay, formatNumber, plural } from "../format.js";
 import { SEVERITY_LABELS } from "../severity.js";
 
-const MIN_SIZE = 22;
+const MIN_SIZE = 24;
 const MAX_SIZE = 38;
 
 // The circle's area, not its width, grows with the number of sightings,
@@ -37,16 +37,17 @@ export function markerClasses(summary, isSelected) {
     .join(" ");
 }
 
+// The species letter is drawn by CSS from data-species, as decoration: the
+// marker's spoken name already says which species is seen most, and keeping
+// the letter out of the text means the visible text matches that name.
 export function markerBody(summary) {
   return h(
     "span",
-    { class: `city-marker__body city-marker__body--${summary.severity.band}` },
-    h("span", { "aria-hidden": "true" }, formatNumber(summary.total)),
-    h(
-      "span",
-      { class: "city-marker__species", "aria-hidden": "true" },
-      mostSeenBadge(summary.mostSeenSpecies),
-    ),
+    {
+      class: `city-marker__body city-marker__body--${summary.severity.band}`,
+      "data-species": mostSeenBadge(summary.mostSeenSpecies),
+    },
+    formatNumber(summary.total),
   );
 }
 

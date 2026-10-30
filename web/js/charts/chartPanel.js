@@ -68,7 +68,13 @@ export function createChartPanel(
   const chartBox = h("div", { class: `relative ${height}` }, canvas);
   const status = h("div");
   const captionLine = h("p", { class: "mt-2 text-sm text-ink-soft" });
-  const tableBody = h("div", { class: "mt-2 max-h-72 overflow-auto" });
+  // Long tables scroll inside this box, so it takes keyboard focus: arrow
+  // keys can then scroll it without a mouse.
+  const tableBody = h("div", {
+    class: "mt-2 max-h-72 overflow-auto",
+    tabindex: "0",
+    role: "region",
+  });
   const details = h(
     "details",
     { class: "mt-3", open: !canChart },
@@ -136,7 +142,9 @@ export function createChartPanel(
       showStatus(null);
       canvas.setAttribute("aria-label", summary(data));
       captionLine.textContent = caption ? caption(data) : "";
-      tableBody.replaceChildren(buildTable(table(data)));
+      const tableData = table(data);
+      tableBody.setAttribute("aria-label", tableData.caption);
+      tableBody.replaceChildren(buildTable(tableData));
       if (canChart) {
         drawChart(data);
       }

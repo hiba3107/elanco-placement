@@ -95,26 +95,25 @@ function speciesContent(summary) {
     summary.species.map(({ name, count }) =>
       h(
         "li",
-        { class: "flex items-center gap-2.5 text-sm" },
+        {
+          class:
+            "grid grid-cols-[1.5rem_minmax(0,1fr)_minmax(4rem,40%)_2rem] items-center gap-2.5 text-sm",
+        },
         h(
           "span",
           { class: "letter-badge !h-6 !w-6 !text-xs", "aria-hidden": "true" },
           speciesLetter(name),
         ),
-        h("span", { class: "w-36 shrink-0 text-ink-soft" }, name),
+        h("span", { class: "text-ink-soft" }, name),
         h(
           "span",
-          { class: "h-2.5 flex-1 rounded-full bg-page", "aria-hidden": "true" },
+          { class: "h-2.5 rounded-full bg-page", "aria-hidden": "true" },
           h("span", {
             class: "block h-2.5 rounded-full",
             style: `width: ${(count / largest) * 100}%; background: var(--series)`,
           }),
         ),
-        h(
-          "span",
-          { class: "w-8 text-right font-semibold tabular-nums text-ink" },
-          formatNumber(count),
-        ),
+        h("span", { class: "text-right font-semibold tabular-nums text-ink" }, formatNumber(count)),
       ),
     ),
   );

@@ -6,7 +6,7 @@ function tile(label, value) {
     "div",
     { class: "rounded-xl border border-line bg-surface px-4 py-3" },
     h("dt", { class: "text-sm text-ink-muted" }, label),
-    h("dd", { class: "mt-1 text-2xl font-semibold text-ink" }, value),
+    h("dd", { class: "mt-1 text-xl font-semibold text-ink sm:text-2xl" }, value),
   );
 }
 
