@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <!-- Tick Tracker logo: a paw print with a leaf. Original drawing. -->
+  <g fill="#0f5f5b">
+    <path d="M22 43c-7.2 0-12-3.8-12-8.9 0-5.6 5.3-11 12-11s12 5.4 12 11c0 5.1-4.8 8.9-12 8.9z" />
+    <ellipse cx="8" cy="24.5" rx="3.7" ry="4.8" transform="rotate(-24 8 24.5)" />
+    <ellipse cx="15" cy="15.5" rx="4" ry="5.1" transform="rotate(-9 15 15.5)" />
+    <ellipse cx="29" cy="15.5" rx="4" ry="5.1" transform="rotate(9 29 15.5)" />
+    <ellipse cx="36" cy="24.5" rx="3.7" ry="4.8" transform="rotate(24 36 24.5)" />
+  </g>
+  <path d="M35.5 14.5C35.3 7.6 39.8 3.4 46.5 2.5c.6 6.8-3.6 11.8-11 12z" fill="#8a9a62" />
+  <path d="M36.2 13.8 44.2 5.2" fill="none" stroke="#4c6344" stroke-width="1.2" stroke-linecap="round" />
+</svg>

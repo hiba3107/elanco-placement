@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <!-- passerine tick: a stylised drawing, not to scale and not for identification. Original drawing for Tick Tracker. -->
+  <circle cx="60" cy="60" r="56" fill="#e9eedf" />
+  <g fill="none" stroke="#524a42" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M49 50 L38 42 L31 31 L28 25" />
+    <path d="M71 50 L82 42 L89 31 L92 25" />
+    <path d="M47 56 L34 52 L24 46 L19 43" />
+    <path d="M73 56 L86 52 L96 46 L101 43" />
+    <path d="M47 62 L34 65 L24 72 L20 77" />
+    <path d="M73 62 L86 65 L96 72 L100 77" />
+    <path d="M49 68 L40 77 L34 88 L32 93" />
+    <path d="M71 68 L80 77 L86 88 L88 93" />
+  </g>
+  <path d="M54.5 45l1.5-10c1-4.5 7-4.5 8 0l1.5 10z" fill="#5e4635" stroke="#2b2622" stroke-width="2.2" stroke-linejoin="round" />
+  <ellipse cx="60" cy="62" rx="16" ry="20" fill="#b99d80" stroke="#2b2622" stroke-width="2.5" />
+  <path d="M48 52c0-9 24-9 24 0 0 8-6.4 14.4-12 14.4s-12-6.4-12-14.4z" fill="#5e4635" stroke="#2b2622" stroke-width="2" stroke-linejoin="round" />
+  <path d="M52.0 76.4q8.0 4 16 0" fill="none" stroke="#2b2622" stroke-width="1.5" stroke-linecap="round" opacity="0.6" />
+  <circle cx="60" cy="102.5" r="12.5" fill="#fffcf6" stroke="#4c6344" stroke-width="1.5" />
+  <g fill="none" stroke="#4c6344" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M55 110c4-5 7-10 11-16" /><path d="M66 94c-6 0-11 5-11 12 6-1 10-5 11-12z" fill="#e9eedf" /></g>
+</svg>
