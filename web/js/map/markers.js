@@ -17,7 +17,7 @@ export function mostSeenBadge({ names }) {
   return names.length === 1 ? speciesLetter(names[0]) : "=";
 }
 
-export function describeMostSeen({ names, count }) {
+function describeMostSeen({ names, count }) {
   if (names.length === 0) {
     return "No sightings";
   }

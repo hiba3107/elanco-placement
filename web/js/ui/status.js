@@ -32,7 +32,7 @@ export function emptyState({ title, message, action }) {
   );
 }
 
-export function describeError(error) {
+function describeError(error) {
   if (error?.code === "DATA_LOADING") {
     return "The server is still loading tick data from Elanco. This will update by itself when it is ready.";
   }

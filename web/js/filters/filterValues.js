@@ -5,7 +5,7 @@ export function countActiveFilters({ from, to, species, severity }) {
   return [from, to].filter(Boolean).length + species.length + severity.length;
 }
 
-export const SEVERITY_BANDS = Object.freeze(["high", "medium", "low"]);
+const SEVERITY_BANDS = Object.freeze(["high", "medium", "low"]);
 
 const DAY_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 

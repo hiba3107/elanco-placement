@@ -5,7 +5,7 @@ import { formatNumber } from "../format.js";
 // background. Values and labels use the page's text colours, never the series
 // colour, so they stay readable.
 
-export const CHART_COLOURS = Object.freeze({
+const CHART_COLOURS = Object.freeze({
   series: "#2a78d6",
   seriesWash: "rgba(42, 120, 214, 0.1)",
   reference: "#4d4c48",

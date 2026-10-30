@@ -11,7 +11,7 @@ const FALLBACK_MESSAGES = {
   SERVER_ERROR: "Something went wrong on the server. Please try again in a moment.",
 };
 
-export class ApiError extends Error {
+class ApiError extends Error {
   constructor({ status = 0, code, message, details = [], retryAfterSeconds = null }) {
     super(message);
     this.name = "ApiError";

@@ -9,12 +9,6 @@ const dayFormat = new Intl.DateTimeFormat("en-GB", {
   year: "numeric",
   timeZone: "UTC",
 });
-const longDayFormat = new Intl.DateTimeFormat("en-GB", {
-  day: "numeric",
-  month: "long",
-  year: "numeric",
-  timeZone: "UTC",
-});
 const dateTimeFormat = new Intl.DateTimeFormat("en-GB", {
   day: "numeric",
   month: "short",
@@ -53,10 +47,6 @@ export function parseWallClock(text) {
 
 export function formatDay(text) {
   return dayFormat.format(parseWallClock(text));
-}
-
-export function formatDayLong(text) {
-  return longDayFormat.format(parseWallClock(text));
 }
 
 export function formatDateTime(text) {
