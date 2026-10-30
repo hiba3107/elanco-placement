@@ -244,9 +244,10 @@ evening is not wrongly called "in the future" on a server running on UTC.
   are spread evenly through the year. The seasonal chart shows this honestly: a chi-squared test
   decides whether the months differ more than chance would explain, and below 60 sightings the page
   says there are too few to judge. It never smooths in a pattern that is not there.
-- **A Latin name that does not exist.** The data lists the passerine tick as _Dermacentor
-  frontalis_. There is no such species: the passerine tick is _Ixodes frontalis_. The API keeps
-  Elanco's value so its data matches theirs; the species guide gives the correct name and says why.
+- **The passerine tick.** Elanco's data calls this _Dermacentor frontalis_. The
+  [UK government's tick species list (UKHSA)](https://www.gov.uk/guidance/tick-species-profiles)
+  names the passerine tick _Ixodes frontalis_. The API keeps Elanco's value so its data matches
+  theirs, and the species guide shows both names.
 - **Sample data, not a real risk map.** Every species appears in every city, though in reality most
   of these ticks are rare and local (the marsh tick is known from a handful of wetlands). The page
   says so in "About the data".

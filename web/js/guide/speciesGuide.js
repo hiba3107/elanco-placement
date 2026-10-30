@@ -1,5 +1,5 @@
 import { api } from "../api.js";
-import { speciesNotes } from "../content/species.js";
+import { UKHSA_SPECIES_PROFILES_URL, speciesNotes } from "../content/species.js";
 import { h } from "../dom.js";
 import { formatNumber, formatPercent } from "../format.js";
 
@@ -26,6 +26,29 @@ function describeNumbers(summary) {
   return `${formatNumber(summary.count)} sightings in the data (${formatPercent(summary.share)}). Seen most in ${where}, with ${formatNumber(count)}.`;
 }
 
+// Shown when Elanco's Latin name differs from the UK government's species
+// profiles, so the guide never quietly overrides what the data says.
+function latinNameNote(species, notes) {
+  if (!notes.scientificName || notes.scientificName === species.latinName) {
+    return null;
+  }
+  return h(
+    "p",
+    { class: "mt-3 rounded-lg bg-warning-soft px-3 py-2 text-sm text-warning" },
+    "Elanco's data calls this ",
+    h("i", {}, species.latinName),
+    ". The ",
+    h(
+      "a",
+      { class: "text-link", href: UKHSA_SPECIES_PROFILES_URL, rel: "noopener", target: "_blank" },
+      "UK government's tick species list (UKHSA)",
+    ),
+    ` names the ${species.name.toLowerCase()} `,
+    h("i", {}, notes.scientificName),
+    ".",
+  );
+}
+
 function speciesCard(species, numbersLine) {
   const notes = speciesNotes(species.name);
   return h(
@@ -48,12 +71,7 @@ function speciesCard(species, numbersLine) {
           h("p", { class: "text-sm text-ink-muted" }, `Also called the ${notes.alsoKnownAs}`),
       ),
     ),
-    notes.datasetNameNote &&
-      h(
-        "p",
-        { class: "mt-3 rounded-lg bg-warning-soft px-3 py-2 text-sm text-warning" },
-        notes.datasetNameNote,
-      ),
+    latinNameNote(species, notes),
     numbersLine,
     notes.hosts
       ? h(

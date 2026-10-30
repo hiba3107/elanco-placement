@@ -79,9 +79,10 @@ words: it should sound like you explaining your project, not reading a script.
   chi-squared test checks whether the months differ more than chance would explain, and the page
   says plainly that they do not, instead of drawing a pattern that is not there.
 - Click "Show as a table" once: every chart has one, for screen readers and if Chart.js fails.
-- The species guide is built from the five species in the data. Mention that the data calls the
-  passerine tick _Dermacentor frontalis_, which does not exist (it is _Ixodes frontalis_), and the
-  guide says so.
+- The species guide is built from the five species in the data. Point out the passerine tick's
+  note: "Elanco's data calls this _Dermacentor frontalis_. The
+  [UK government's tick species list (UKHSA)](https://www.gov.uk/guidance/tick-species-profiles)
+  names the passerine tick _Ixodes frontalis_." The guide shows both names.
 
 ## 5. Reporting a sighting (4:15 to 5:30)
 

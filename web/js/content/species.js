@@ -3,6 +3,8 @@
 // species profiles, and published research on each species. Sighting numbers
 // on the page come from the API, never from here.
 
+export const UKHSA_SPECIES_PROFILES_URL = "https://www.gov.uk/guidance/tick-species-profiles";
+
 const SPECIES_NOTES = {
   "Fox/badger tick": {
     letter: "F",
@@ -27,8 +29,6 @@ const SPECIES_NOTES = {
   "Passerine tick": {
     letter: "P",
     scientificName: "Ixodes frontalis",
-    datasetNameNote:
-      "Elanco's data calls this Dermacentor frontalis. No tick by that name exists: the passerine tick is Ixodes frontalis.",
     hosts:
       "Only birds, especially songbirds such as robins and blackbirds that feed on the ground.",
     habitat:
