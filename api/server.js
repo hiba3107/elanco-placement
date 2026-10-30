@@ -9,6 +9,13 @@ const { createSightingStore } = require("./src/sightings/store");
 
 const MINUTE_MS = 60 * 1000;
 
+function describeListenError(error, port) {
+  if (error.code === "EADDRINUSE") {
+    return `port ${port} is already in use. Stop the other server, or set PORT to a free port.`;
+  }
+  return error.message;
+}
+
 async function main() {
   const config = loadConfig();
   const logger = createLogger(config.logLevel);
@@ -45,10 +52,18 @@ async function main() {
 
   // The server starts listening straight away and loads the data in the
   // background, so the page can show "still loading" instead of failing to connect.
-  const server = app.listen(config.port, () => {
+  // Express 5 calls this callback with an error if the port cannot be used.
+  const server = app.listen(config.port, (error) => {
+    if (error) {
+      logger.error(`Tick Tracker could not start: ${describeListenError(error, config.port)}`);
+      process.exit(1);
+      return;
+    }
     logger.info(`Tick Tracker running at http://localhost:${config.port}`);
+    store
+      .start()
+      .catch((startError) => logger.error("The sightings store failed to start", startError));
   });
-  store.start().catch((error) => logger.error("The sightings store failed to start", error));
 
   function shutDown(signal) {
     logger.info(`Received ${signal}, shutting down`);
