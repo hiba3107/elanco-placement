@@ -10,6 +10,7 @@ import { initFilterPanel, setFilterDateRange } from "./filters/filterPanel.js";
 import { createSpeciesGuide } from "./guide/speciesGuide.js";
 import { createInsightsView } from "./insights/insightsView.js";
 import { createMapView } from "./map/mapView.js";
+import { initReportForm } from "./report/reportForm.js";
 import { createSeasonalView } from "./seasonal/seasonalView.js";
 import { filtersStore, selectedCityStore } from "./state.js";
 import { createDataBanner } from "./ui/dataBanner.js";
@@ -60,7 +61,7 @@ function checkLinkedCity(meta) {
 
 // Everything that only needs the reference data is built as soon as the
 // server answers, even if Elanco's data is not available yet: the map, the
-// filters, the species guide and the chart frames.
+// filters, the species guide, the chart frames and the report form.
 function createViews(meta) {
   if (isChartLibraryLoaded()) {
     applyChartDefaults();
@@ -88,6 +89,7 @@ function createViews(meta) {
   });
   created.insights = createInsightsView();
   created.seasonal = createSeasonalView(meta);
+  initReportForm(meta, { onSaved: () => created.panel.refreshReports() });
 
   filtersStore.subscribe(() => {
     created.map.load();
