@@ -54,7 +54,7 @@ export function renderCityList(container, { locations, selectedCity, onSelect })
       "div",
       { class: "border-b border-line px-4 py-3" },
       h("h3", { class: "font-semibold text-ink" }, `Cities (${locations.length})`),
-      h("p", { class: "text-sm text-ink-muted" }, "Most recent activity first"),
+      h("p", { class: "text-sm text-ink-muted" }, "Highest severity score first"),
     ),
     h(
       "ul",
