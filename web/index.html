@@ -6,7 +6,7 @@
     <title>Tick Tracker: UK tick sightings</title>
     <meta
       name="description"
-      content="Map, trends and seasonal patterns of tick sightings across 14 UK cities, with a species guide, prevention tips and a form to report a sighting."
+      content="A pet owner's guide to UK ticks: where they have been seen, which species to look out for, how to prevent bites, and a form to report a sighting."
     />
     <meta name="theme-color" content="#f9f3e6" />
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
@@ -137,13 +137,15 @@
   <body class="bg-page font-sans text-ink antialiased">
     <a class="skip-link" href="#main">Skip to main content</a>
 
-    <header class="border-b border-line bg-surface">
-      <div class="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3 sm:px-6 lg:px-8">
-        <a href="#overview" class="mr-auto flex items-center gap-3 rounded-md">
-          <img src="favicon.svg" alt="" class="h-9 w-9" width="36" height="36" />
+    <header class="relative border-b border-line">
+      <div class="wrap flex items-center gap-4 py-3">
+        <a href="#overview" class="mr-auto flex items-center gap-2.5 rounded-lg">
+          <img src="images/logo.svg" alt="" class="h-10 w-10" width="40" height="40" />
           <span>
-            <span class="block text-base font-semibold leading-tight">Tick Tracker</span>
-            <span class="block text-xs text-ink-muted">UK tick sightings</span>
+            <span class="block font-heading text-xl font-extrabold leading-tight text-accent"
+              >Tick Tracker</span
+            >
+            <span class="block text-sm text-ink-muted">A pet owner's guide to UK ticks</span>
           </span>
         </a>
         <button
@@ -158,13 +160,13 @@
         <nav
           id="site-nav"
           aria-label="Page sections"
-          class="absolute inset-x-0 top-[61px] z-[1100] hidden border-b border-line bg-surface p-3 shadow-sm lg:static lg:block lg:border-0 lg:p-0 lg:shadow-none"
+          class="absolute inset-x-0 top-full z-[1100] hidden border-b border-line bg-page p-3 shadow-sm lg:static lg:block lg:border-0 lg:bg-transparent lg:p-0 lg:shadow-none"
         >
           <ul class="flex flex-col gap-1 lg:flex-row lg:items-center">
             <li><a class="nav-link" href="#map-section">Map</a></li>
             <li><a class="nav-link" href="#trends">Trends</a></li>
             <li><a class="nav-link" href="#seasons">Seasons</a></li>
-            <li><a class="nav-link" href="#species">Species guide</a></li>
+            <li><a class="nav-link" href="#species">Species</a></li>
             <li><a class="nav-link" href="#prevention">Prevention</a></li>
             <li><a class="nav-link" href="#about-data">About the data</a></li>
             <li class="mt-2 lg:mt-0 lg:ml-2">
@@ -185,15 +187,31 @@
     </noscript>
 
     <main id="main" tabindex="-1" class="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
-      <section id="overview" aria-labelledby="overview-title" class="pt-8 sm:pt-12">
-        <h1 id="overview-title" class="text-3xl font-semibold tracking-tight sm:text-4xl">
-          Tick sightings across the UK
-        </h1>
-        <p class="section-intro text-lg">
-          See where ticks have been recorded in Elanco's sightings data, which areas have the most
-          recent activity, and how to protect yourself and your pets.
-        </p>
-        <dl id="overview-stats" class="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4"></dl>
+      <section id="overview" aria-labelledby="overview-title">
+        <div
+          class="wrap grid items-center gap-6 pt-8 pb-4 sm:pt-12 md:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]"
+        >
+          <div class="min-w-0">
+            <h1
+              id="overview-title"
+              class="text-4xl font-extrabold tracking-tight text-ink sm:text-5xl"
+            >
+              Tick sightings across the UK
+            </h1>
+            <p class="mt-4 max-w-xl text-xl text-ink-soft">
+              See where ticks have been spotted, which ones you might meet on a walk, and how to
+              keep your pets and family safe.
+            </p>
+            <p id="overview-stats" class="quiet-stats" hidden></p>
+          </div>
+          <img
+            src="images/hero-dog.svg"
+            alt=""
+            width="520"
+            height="360"
+            class="mx-auto w-full max-w-xs sm:max-w-sm md:max-w-none"
+          />
+        </div>
       </section>
 
       <section id="map-section" aria-labelledby="map-title" class="pt-12">

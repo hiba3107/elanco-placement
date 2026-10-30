@@ -58,6 +58,7 @@ h2,
 h3,
 h4 {
   font-family: var(--font-display);
+  text-wrap: balance;
 }
 
 :focus-visible {
@@ -303,6 +304,12 @@ details > summary::-webkit-details-marker {
   .is-refreshing {
     transition: none;
   }
+}
+
+/* The key numbers under the introduction, in one quiet line. */
+.quiet-stats {
+  margin-top: 1.25rem;
+  color: var(--ink-muted);
 }
 
 /* "Learn more" sections: longer explanations, folded away until asked for. */
