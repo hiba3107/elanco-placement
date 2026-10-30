@@ -97,21 +97,20 @@ async function request(path, { params, method = "GET", body, signal } = {}) {
   return payload;
 }
 
-// The shared filters, in the shape the API expects.
+// The page's shared filters, as query parameters for the API.
 export function filterParams({ from, to, species, severity }) {
   return { from, to, species, severity };
 }
 
+// Each function takes the query parameters as a plain object, plus options
+// such as an AbortSignal.
 export const api = {
   meta: (options) => request("/api/meta", options),
   dataQuality: (options) => request("/api/data-quality", options),
-  locations: (filters, options) =>
-    request("/api/insights/locations", { params: filterParams(filters), ...options }),
-  regions: (filters, options) =>
-    request("/api/insights/regions", { params: filterParams(filters), ...options }),
-  species: (options) => request("/api/insights/species", options),
-  trends: (filters, interval, options) =>
-    request("/api/insights/trends", { params: { ...filterParams(filters), interval }, ...options }),
+  locations: (params, options) => request("/api/insights/locations", { params, ...options }),
+  regions: (params, options) => request("/api/insights/regions", { params, ...options }),
+  species: (params, options) => request("/api/insights/species", { params, ...options }),
+  trends: (params, options) => request("/api/insights/trends", { params, ...options }),
   seasonal: (params, options) => request("/api/insights/seasonal", { params, ...options }),
   sightings: (params, options) => request("/api/sightings", { params, ...options }),
   reports: (params, options) => request("/api/reports", { params, ...options }),

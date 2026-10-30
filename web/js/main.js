@@ -1,7 +1,9 @@
 import { api } from "./api.js";
+import { applyChartDefaults, isChartLibraryLoaded } from "./charts/theme.js";
+import { createCityPanel } from "./cities/cityPanel.js";
 import { initFilterPanel } from "./filters/filterPanel.js";
 import { createMapView } from "./map/mapView.js";
-import { filtersStore } from "./state.js";
+import { filtersStore, selectedCityStore } from "./state.js";
 import { createDataBanner } from "./ui/dataBanner.js";
 import { initNavigation } from "./ui/navigation.js";
 import { renderOverview } from "./ui/overview.js";
@@ -15,6 +17,7 @@ const RECHECK_DELAYS_MS = {
 };
 
 const overview = document.getElementById("overview-stats");
+const filterNotice = document.getElementById("filter-notice");
 const renderBanner = createDataBanner(document.getElementById("data-banner"), {
   onRetry: () => checkServer(),
 });
@@ -33,6 +36,16 @@ function hasData(status) {
   return status === "ready" || status === "stale";
 }
 
+// A city named in a shared link is only opened if it really exists.
+function checkLinkedCity(meta) {
+  const city = selectedCityStore.get();
+  if (city && !meta.locations.some((location) => location.name === city)) {
+    selectedCityStore.set(null);
+    filterNotice.textContent = `The link named a city we don't track ("${city}"), so the map shows all cities.`;
+    filterNotice.hidden = false;
+  }
+}
+
 // Controls only need the reference data, so they are built as soon as the
 // server answers, even if Elanco's data is not available yet.
 function buildControls(meta) {
@@ -40,14 +53,44 @@ function buildControls(meta) {
     return;
   }
   controlsBuilt = true;
+  if (isChartLibraryLoaded()) {
+    applyChartDefaults();
+  }
+  checkLinkedCity(meta);
   initFilterPanel(meta);
 }
 
+function createViews(meta) {
+  let firstLoad = true;
+  const created = {};
+  created.panel = createCityPanel({
+    locations: meta.locations,
+    findSummary: (city) => created.map.findLocation(city),
+  });
+  created.map = createMapView(meta, {
+    onData: () => {
+      const city = selectedCityStore.get();
+      if (firstLoad && city) {
+        created.panel.open(city, { moveFocus: false });
+      } else {
+        created.panel.refresh();
+      }
+      firstLoad = false;
+    },
+  });
+  filtersStore.subscribe(() => created.map.load());
+  selectedCityStore.subscribe((city) => {
+    if (city) {
+      created.panel.open(city, { moveFocus: true });
+    } else {
+      created.panel.close();
+    }
+  });
+  return created;
+}
+
 function loadDataViews(meta) {
-  if (!views) {
-    views = { map: createMapView(meta) };
-    filtersStore.subscribe(() => views.map.load());
-  }
+  views ??= createViews(meta);
   views.map.load();
 }
 

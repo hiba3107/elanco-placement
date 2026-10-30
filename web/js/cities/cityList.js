@@ -11,6 +11,7 @@ function cityButton(summary, isSelected, onSelect) {
       class:
         "flex w-full items-center gap-3 px-4 py-3 text-left hover:bg-page aria-[current=true]:bg-accent-soft",
       "aria-current": isSelected ? "true" : null,
+      "data-city": summary.location,
       onClick: () => onSelect(summary.location),
     },
     h("span", { class: `swatch swatch--${band}`, "aria-hidden": "true" }),
@@ -63,4 +64,16 @@ export function renderCityList(container, { locations, selectedCity, onSelect })
       ),
     ),
   );
+}
+
+// Updates which city is marked as selected without rebuilding the list, so
+// the button the visitor used keeps its place and can get focus back later.
+export function markSelectedCity(container, city) {
+  for (const button of container.querySelectorAll("[data-city]")) {
+    if (button.dataset.city === city) {
+      button.setAttribute("aria-current", "true");
+    } else {
+      button.removeAttribute("aria-current");
+    }
+  }
 }

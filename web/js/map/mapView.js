@@ -1,5 +1,5 @@
-import { api, isAbortError } from "../api.js";
-import { renderCityList } from "../cities/cityList.js";
+import { api, filterParams, isAbortError } from "../api.js";
+import { markSelectedCity, renderCityList } from "../cities/cityList.js";
 import { h } from "../dom.js";
 import { plural } from "../format.js";
 import { EMPTY_FILTERS, filtersStore, selectedCityStore } from "../state.js";
@@ -76,7 +76,7 @@ function failureState(error, retry) {
  * current filters. Each load cancels the one before it, and while a reload
  * is in flight the previous markers stay visible but dimmed.
  */
-export function createMapView(meta) {
+export function createMapView(meta, { onData }) {
   const runLatest = createLatestRequest();
   const selectCity = (city) => selectedCityStore.set(city);
   const map = isMapLibraryLoaded()
@@ -120,9 +120,12 @@ export function createMapView(meta) {
       setBusy(true);
     }
     try {
-      latest = await runLatest((signal) => api.locations(filtersStore.get(), { signal }));
+      latest = await runLatest((signal) =>
+        api.locations(filterParams(filtersStore.get()), { signal }),
+      );
       setBusy(false);
       render();
+      onData();
     } catch (error) {
       if (isAbortError(error)) {
         return;
@@ -137,13 +140,7 @@ export function createMapView(meta) {
 
   selectedCityStore.subscribe((city) => {
     map?.setSelected(city);
-    if (latest && latest.locations.length > 0) {
-      renderCityList(listView, {
-        locations: latest.locations,
-        selectedCity: city,
-        onSelect: selectCity,
-      });
-    }
+    markSelectedCity(listView, city);
   });
 
   return {

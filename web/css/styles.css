@@ -43,6 +43,12 @@ body {
   outline-offset: 2px;
 }
 
+/* Headings and other targets that receive focus from code (not by tabbing)
+   are announced by screen readers; a ring around them would only distract. */
+[tabindex="-1"]:focus {
+  outline: none;
+}
+
 .skip-link {
   position: absolute;
   left: 1rem;

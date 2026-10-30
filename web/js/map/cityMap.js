@@ -91,6 +91,14 @@ export function createCityMap(element, { cities, onSelect, onTileError }) {
       icon.setAttribute("aria-label", describeMarker(summary));
       icon.addEventListener("focus", () => marker.openTooltip());
       icon.addEventListener("blur", () => marker.closeTooltip());
+      // Leaflet's own Enter handling only opens popups, so the button keys
+      // are wired up here: Enter or Space opens the city, as on any button.
+      icon.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          onSelect(summary.location);
+        }
+      });
     });
     marker.addTo(markerLayer);
     markersByCity.set(summary.location, { marker, summary });
