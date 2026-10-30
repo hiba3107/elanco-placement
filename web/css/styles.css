@@ -6,19 +6,33 @@
 :root {
   color-scheme: light;
 
-  --page: #f6f6f3;
-  --surface: #ffffff;
-  --line: #e1e0d9;
-  --line-strong: #8a8984;
-  --ink: #1d1c1a;
-  --ink-soft: #4d4c48;
-  --ink-muted: #6b6a65;
+  --font-body: "Source Sans 3", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-display: "Nunito", "Source Sans 3", system-ui, -apple-system, "Segoe UI", sans-serif;
 
-  --accent: #1c5cab;
-  --accent-strong: #184f95;
-  --accent-soft: #e8f0fb;
-  --focus: #2a78d6;
-  --series: #2a78d6;
+  /* Every text colour meets WCAG AA (4.5:1) on every background below. */
+  --page: #f9f3e6;
+  --surface: #fffcf6;
+  --tint: #f1ebdb;
+  --line: #e5dccb;
+  --line-strong: #8f8475;
+  --ink: #2b2622;
+  --ink-soft: #524a42;
+  --ink-muted: #6b6157;
+
+  /* Deep teal for buttons, links and focus; a brighter teal for chart marks
+     and the map's recent-activity ring. */
+  --accent: #0f5f5b;
+  --accent-strong: #0a4845;
+  --accent-soft: #dcecea;
+  --focus: #0f5f5b;
+  --series: #00897b;
+
+  /* Sage, the warm accent, is for decoration only: drawings and washes. It is
+     kept away from the map, where it could be mistaken for low severity by
+     someone with red-green colour blindness. --sage-strong is for sage text. */
+  --sage: #8a9a62;
+  --sage-strong: #4c6344;
+  --sage-soft: #e9eedf;
 
   /* One hue, light to dark, so severity reads by lightness too (colour-blind safe). */
   --severity-low: #f08d6a;
@@ -26,16 +40,24 @@
   --severity-high: #7e2500;
 
   --error: #b42318;
-  --error-soft: #fef1f0;
+  --error-soft: #fdeeec;
   --warning: #8a5300;
-  --warning-soft: #fff7e6;
+  --warning-soft: #fcf1dc;
   --success: #1a6b34;
-  --success-soft: #edf7f0;
+  --success-soft: #e8f3ea;
 }
 
 body {
   background: var(--page);
   color: var(--ink);
+  font-family: var(--font-body);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
 }
 
 :focus-visible {
@@ -96,7 +118,7 @@ section[id],
 }
 
 /* Map markers: fill shows severity, size shows the number of sightings, a
-   blue ring shows recent activity and the letter shows the most-seen species. */
+   teal ring shows recent activity and the letter shows the most-seen species. */
 .city-marker {
   background: none;
   border: none;
@@ -189,7 +211,7 @@ section[id],
 
 .leaflet-container {
   font: inherit;
-  background: #eceae4;
+  background: #efe7d6;
 }
 
 .leaflet-container .leaflet-marker-icon:focus-visible {
@@ -217,7 +239,7 @@ section[id],
   padding: 0.625rem 0.75rem;
   border: 1px solid var(--line);
   border-radius: 0.625rem;
-  background: rgb(255 255 255 / 0.96);
+  background: rgb(255 252 246 / 0.96);
   box-shadow: 0 1px 4px rgb(0 0 0 / 0.12);
   color: var(--ink);
   font-size: 0.75rem;
@@ -258,7 +280,7 @@ section[id],
   height: 1.75rem;
   border-radius: 50%;
   border: 1.5px solid var(--ink);
-  background: #ffffff;
+  background: var(--surface);
   color: var(--ink);
   font-size: 0.8125rem;
   font-weight: 700;

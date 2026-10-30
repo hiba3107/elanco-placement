@@ -1,18 +1,21 @@
 import { formatNumber } from "../format.js";
 
-// Shared look for every chart: one blue series, thin bars with rounded tops,
+// Shared look for every chart: one teal series, thin bars with rounded tops,
 // 2px lines over a faint wash, and hairline gridlines that stay in the
 // background. Values and labels use the page's text colours, never the series
-// colour, so they stay readable.
+// colour, so they stay readable. The colours match the tokens in styles.css.
 
 const CHART_COLOURS = Object.freeze({
-  series: "#2a78d6",
-  seriesWash: "rgba(42, 120, 214, 0.1)",
-  reference: "#4d4c48",
-  grid: "#e9e8e2",
-  axis: "#c3c2b7",
-  text: "#4d4c48",
-  ink: "#1d1c1a",
+  series: "#00897b",
+  seriesHover: "#0f5f5b",
+  seriesWash: "rgba(0, 137, 123, 0.12)",
+  reference: "#524a42",
+  grid: "#ebe3d3",
+  axis: "#c9bfae",
+  text: "#524a42",
+  ink: "#2b2622",
+  surface: "#fffcf6",
+  line: "#e5dccb",
 });
 
 export function isChartLibraryLoaded() {
@@ -31,8 +34,8 @@ export function applyChartDefaults() {
   // would only repeat the title.
   Chart.defaults.plugins.legend.display = false;
   Object.assign(Chart.defaults.plugins.tooltip, {
-    backgroundColor: "#ffffff",
-    borderColor: "#e1e0d9",
+    backgroundColor: CHART_COLOURS.surface,
+    borderColor: CHART_COLOURS.line,
     borderWidth: 1,
     titleColor: CHART_COLOURS.text,
     titleFont: { weight: "normal" },
@@ -47,7 +50,7 @@ export function barDataset(values) {
   return {
     data: values,
     backgroundColor: CHART_COLOURS.series,
-    hoverBackgroundColor: "#1c5cab",
+    hoverBackgroundColor: CHART_COLOURS.seriesHover,
     borderRadius: 4,
     maxBarThickness: 24,
   };
@@ -125,10 +128,10 @@ const referenceLine = {
     ctx.moveTo(chartArea.left, y);
     ctx.lineTo(chartArea.right, y);
     ctx.stroke();
-    // The label gets a white backing so it stays readable where it crosses a bar.
+    // The label gets a backing so it stays readable where it crosses a bar.
     ctx.font = `600 12px ${Chart.defaults.font.family}`;
     const width = ctx.measureText(options.label).width;
-    ctx.fillStyle = "rgba(255, 255, 255, 0.92)";
+    ctx.fillStyle = "rgba(255, 252, 246, 0.92)";
     ctx.fillRect(chartArea.right - width - 6, y - 20, width + 6, 16);
     ctx.fillStyle = CHART_COLOURS.reference;
     ctx.textAlign = "right";
