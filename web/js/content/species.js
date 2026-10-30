@@ -8,6 +8,7 @@ export const UKHSA_SPECIES_PROFILES_URL = "https://www.gov.uk/guidance/tick-spec
 const SPECIES_NOTES = {
   "Fox/badger tick": {
     letter: "F",
+    drawing: "images/species/fox-badger-tick.svg",
     scientificName: "Ixodes canisuga",
     alsoKnownAs: "British dog tick",
     hosts:
@@ -15,10 +16,11 @@ const SPECIES_NOTES = {
     habitat:
       "A nest-dwelling tick that lives in burrows, setts, earths and dens, and in dog kennels.",
     range: "Recorded across Britain.",
-    risk: "The one pet owners are most likely to meet: dogs pick it up from setts, earths and kennels. It rarely bites people.",
+    risk: "The one dogs most often pick up, from setts, earths and kennels. It rarely bites people.",
   },
   "Marsh tick": {
     letter: "M",
+    drawing: "images/species/marsh-tick.svg",
     scientificName: "Ixodes apronophorus",
     hosts: "Mainly water voles, and other small mammals in wet places.",
     habitat: "Wetlands: marshes, fens, wet meadows and riverbanks.",
@@ -28,6 +30,7 @@ const SPECIES_NOTES = {
   },
   "Passerine tick": {
     letter: "P",
+    drawing: "images/species/passerine-tick.svg",
     scientificName: "Ixodes frontalis",
     hosts:
       "Only birds, especially songbirds such as robins and blackbirds that feed on the ground.",
@@ -38,6 +41,7 @@ const SPECIES_NOTES = {
   },
   "Southern rodent tick": {
     letter: "S",
+    drawing: "images/species/southern-rodent-tick.svg",
     scientificName: "Ixodes acuminatus",
     hosts: "Small mammals: mice, voles, shrews, moles and dormice.",
     habitat: "Lives inside the burrows and nests of its hosts.",
@@ -46,6 +50,7 @@ const SPECIES_NOTES = {
   },
   "Tree-hole tick": {
     letter: "T",
+    drawing: "images/species/tree-hole-tick.svg",
     scientificName: "Ixodes arboricola",
     hosts: "Birds that nest in holes, mainly great tits and blue tits, also nuthatches.",
     habitat: "Spends its whole life inside tree holes and nest boxes.",
@@ -55,9 +60,15 @@ const SPECIES_NOTES = {
 };
 
 // A species without notes (if Elanco ever adds one) still gets a letter and
-// a card, instead of breaking the page.
+// a place in the guide, instead of breaking the page.
 export function speciesNotes(name) {
-  return SPECIES_NOTES[name] ?? { letter: name.charAt(0).toUpperCase(), scientificName: null };
+  return (
+    SPECIES_NOTES[name] ?? {
+      letter: name.charAt(0).toUpperCase(),
+      drawing: null,
+      scientificName: null,
+    }
+  );
 }
 
 export function speciesLetter(name) {

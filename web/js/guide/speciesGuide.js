@@ -22,8 +22,11 @@ function describeNumbers(summary) {
     return "No sightings of this species in the data.";
   }
   const { names, count } = summary.mostSeenIn;
-  const where = names.length === 1 ? names[0] : `${names.join(", ")} (joint)`;
-  return `${formatNumber(summary.count)} sightings in the data (${formatPercent(summary.share)}). Seen most in ${where}, with ${formatNumber(count)}.`;
+  const most =
+    names.length === 1
+      ? `${names[0]} (${formatNumber(count)})`
+      : `${names.join(" and ")} (${formatNumber(count)} each)`;
+  return `${formatNumber(summary.count)} sightings (${formatPercent(summary.share)}), most in ${most}.`;
 }
 
 // Shown when Elanco's Latin name differs from the UK government's species
@@ -34,7 +37,7 @@ function latinNameNote(species, notes) {
   }
   return h(
     "p",
-    { class: "mt-3 rounded-lg bg-warning-soft px-3 py-2 text-sm text-warning" },
+    { class: "mt-2 rounded-xl bg-warning-soft px-3 py-2 text-sm text-warning" },
     "Elanco's data calls this ",
     h("i", {}, species.latinName),
     ". The ",
@@ -49,40 +52,77 @@ function latinNameNote(species, notes) {
   );
 }
 
-function speciesCard(species, numbersLine) {
+// The drawing beside each species is decoration (alt=""): the name next to it
+// says the same, and the drawings are too stylised to identify a tick by.
+function drawing(notes) {
+  if (!notes.drawing) {
+    return h(
+      "span",
+      { class: "letter-badge species-drawing", "aria-hidden": "true" },
+      notes.letter,
+    );
+  }
+  return h("img", {
+    class: "species-drawing",
+    src: notes.drawing,
+    alt: "",
+    width: 88,
+    height: 88,
+    loading: "lazy",
+  });
+}
+
+function moreAbout(species, notes) {
+  if (!notes.hosts) {
+    return h("p", { class: "mt-2 text-sm text-ink-muted" }, "No guide notes for this species yet.");
+  }
+  return h(
+    "details",
+    { class: "learn-more mt-2" },
+    h(
+      "summary",
+      {},
+      "Learn more",
+      h("span", { class: "sr-only" }, ` about the ${species.name.toLowerCase()}`),
+    ),
+    h(
+      "dl",
+      { class: "learn-more__body space-y-2 text-sm" },
+      fact("Usually found on", notes.hosts),
+      fact("Where it lives", notes.habitat),
+      fact("UK range", notes.range),
+    ),
+  );
+}
+
+function speciesItem(species, numbersLine) {
   const notes = speciesNotes(species.name);
   return h(
-    "article",
-    { class: "card flex flex-col", "aria-labelledby": `species-${notes.letter}` },
+    "li",
+    { class: "species-item" },
+    drawing(notes),
     h(
       "div",
-      { class: "flex items-start gap-3" },
-      h("span", { class: "letter-badge", "aria-hidden": "true" }, notes.letter),
+      { class: "min-w-0" },
       h(
         "div",
-        {},
-        h("h3", { id: `species-${notes.letter}`, class: "card-title" }, species.name),
+        { class: "flex flex-wrap items-center gap-x-2.5 gap-y-1" },
+        h("h3", { class: "card-title" }, species.name),
         h(
-          "p",
-          { class: "text-sm italic text-ink-soft" },
-          notes.scientificName ?? species.latinName,
+          "span",
+          { class: "letter-badge !h-6 !w-6 !text-xs", title: "Letter used on the map" },
+          h("span", { class: "sr-only" }, "Map letter "),
+          notes.letter,
         ),
-        notes.alsoKnownAs &&
-          h("p", { class: "text-sm text-ink-muted" }, `Also called the ${notes.alsoKnownAs}`),
       ),
+      h("p", { class: "italic text-ink-muted" }, notes.scientificName ?? species.latinName),
+      notes.alsoKnownAs &&
+        h("p", { class: "text-sm text-ink-muted" }, `Also called the ${notes.alsoKnownAs}`),
+      latinNameNote(species, notes),
+      notes.risk && h("p", { class: "mt-2 text-ink-soft" }, notes.risk),
+      numbersLine,
+      moreAbout(species, notes),
     ),
-    latinNameNote(species, notes),
-    numbersLine,
-    notes.hosts
-      ? h(
-          "dl",
-          { class: "mt-3 space-y-2 text-sm" },
-          fact("Usually found on", notes.hosts),
-          fact("Where it lives", notes.habitat),
-          fact("UK range", notes.range),
-          fact("People and pets", notes.risk),
-        )
-      : h("p", { class: "mt-3 text-sm text-ink-muted" }, "No guide notes for this species yet."),
   );
 }
 
@@ -95,11 +135,11 @@ export function createSpeciesGuide(meta) {
   const numberLines = new Map(
     meta.species.map((species) => [
       species.name,
-      h("p", { class: "mt-3 text-sm font-medium text-ink" }, "Sighting numbers are loading…"),
+      h("p", { class: "mt-2 text-sm font-semibold text-ink" }, "Sighting numbers are loading…"),
     ]),
   );
   container.replaceChildren(
-    ...meta.species.map((species) => speciesCard(species, numberLines.get(species.name))),
+    ...meta.species.map((species) => speciesItem(species, numberLines.get(species.name))),
   );
 
   function showNumbersMessage(message) {

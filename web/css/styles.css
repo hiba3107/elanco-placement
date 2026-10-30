@@ -304,3 +304,74 @@ details > summary::-webkit-details-marker {
     transition: none;
   }
 }
+
+/* "Learn more" sections: longer explanations, folded away until asked for. */
+.learn-more > summary {
+  display: inline;
+  list-style: none;
+  border-radius: 0.375rem;
+  color: var(--accent);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.learn-more > summary:hover {
+  color: var(--accent-strong);
+  text-decoration: underline;
+}
+
+.learn-more > summary::after {
+  content: "";
+  display: inline-block;
+  width: 0.45rem;
+  height: 0.45rem;
+  margin: 0 0.25rem 0.2rem 0.5rem;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg);
+}
+
+.learn-more[open] > summary::after {
+  margin-bottom: -0.05rem;
+  transform: rotate(-135deg);
+}
+
+.learn-more__body {
+  margin-top: 0.625rem;
+  padding-left: 0.875rem;
+  border-left: 3px solid var(--sage);
+  color: var(--ink-soft);
+}
+
+.learn-more__body > * + * {
+  margin-top: 0.625rem;
+}
+
+/* Species guide: a list, each species with its drawing beside it. */
+.species-list {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 1024px) {
+  .species-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 3rem;
+  }
+}
+
+.species-item {
+  display: grid;
+  grid-template-columns: 5.5rem minmax(0, 1fr);
+  column-gap: 1.25rem;
+  align-items: start;
+  padding: 1.5rem 0;
+  border-top: 1px solid var(--line);
+}
+
+.species-drawing {
+  width: 5.5rem;
+  height: 5.5rem;
+}
