@@ -414,9 +414,9 @@ web/
   js/map/  cities/  filters/  insights/  seasonal/  guide/  report/  about/  charts/  ui/
 docs/                  architecture, API reference, wireframes, video outline
 ```
+## Development Approach
 
-
-
+I led the development process, from writing the specification and choosing the technology stack to implementing and testing the features. I used AI tools occasionally to support development and speed up routine tasks. I also identified and fixed bugs and verified the data against UK government sources.
 
 ## What I would do differently with more time
 
