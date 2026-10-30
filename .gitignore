@@ -1,8 +1,13 @@
 node_modules/
 coverage/
 
-# Runtime data written by the API: Elanco snapshot, user reports and uploaded photos
+# Runtime data written by the API: the Elanco snapshot, user reports and
+# uploaded photos. api/data/ is the default folder; the name patterns also
+# catch them if DATA_DIR points to another folder inside the project.
 api/data/
+elanco-snapshot.json*
+reports.json*
+uploads/
 
 .env
 .env.*
