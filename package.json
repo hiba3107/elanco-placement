@@ -13,8 +13,8 @@
   "scripts": {
     "start": "node api/server.js",
     "dev": "node --watch api/server.js",
-    "test": "node --test \"api/test/**/*.test.js\"",
-    "test:coverage": "node --test --experimental-test-coverage \"api/test/**/*.test.js\"",
+    "test": "node --test \"api/test/**/*.test.js\" \"api/test/**/*.test.mjs\"",
+    "test:coverage": "node --test --experimental-test-coverage \"api/test/**/*.test.js\" \"api/test/**/*.test.mjs\"",
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",

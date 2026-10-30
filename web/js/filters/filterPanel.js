@@ -1,6 +1,7 @@
 import { speciesLetter } from "../content/species.js";
 import { h } from "../dom.js";
-import { EMPTY_FILTERS, countActiveFilters, filtersStore, sanitiseFilters } from "../state.js";
+import { EMPTY_FILTERS, filtersStore } from "../state.js";
+import { countActiveFilters, sanitiseFilters } from "./filterValues.js";
 
 const form = document.getElementById("filters");
 const controls = document.getElementById("filter-controls");

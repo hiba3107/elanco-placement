@@ -16,6 +16,10 @@ module.exports = [
     languageOptions: { sourceType: "commonjs", globals: globals.node },
   },
   {
+    files: ["api/test/**/*.mjs"],
+    languageOptions: { sourceType: "module", globals: globals.node },
+  },
+  {
     files: ["web/**/*.js"],
     languageOptions: {
       sourceType: "module",
