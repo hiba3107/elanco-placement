@@ -398,13 +398,19 @@
               <b>Showing saved data</b>
               <span class="text-warning">(only shown when Elanco is down or still loading)</span>
             </div>
-            <p class="h1">Tick sightings across the UK</p>
-            <div class="line w70"></div>
-            <div class="cols-4">
-              <div class="tile">Sightings<b>1,000</b></div>
-              <div class="tile">Cities<b>14</b></div>
-              <div class="tile">Species<b>5</b></div>
-              <div class="tile">Years covered<b>2012–2024</b></div>
+            <div class="row relative" style="align-items: center; gap: 24px">
+              <span class="callout pin" style="left: -10px; top: -6px">6</span>
+              <div class="grow">
+                <p class="h1">Tick sightings across the UK</p>
+                <div class="line w90"></div>
+                <div class="line w70"></div>
+                <p class="muted small" style="margin-top: 10px">
+                  In the data: 1,000 sightings across 14 cities and 5 species, from 2012 to 2024.
+                </p>
+              </div>
+              <div class="placeholder" style="width: 260px; height: 150px; border-radius: 40px">
+                drawing: a dog outdoors
+              </div>
             </div>
             <p class="h2" style="margin-top: 18px">Map of sightings</p>
             <div class="card relative">
@@ -498,6 +504,13 @@
           <li>
             <span class="callout">5</span>
             <span>A banner explains when data is loading, saved from earlier, or unavailable.</span>
+          </li>
+          <li>
+            <span class="callout">6</span>
+            <span
+              >A short welcome beside a drawing, with the key numbers in one quiet sentence rather
+              than big number boxes.</span
+            >
           </li>
         </ol>
       </div>
@@ -651,69 +664,86 @@
               </p>
             </div>
             <p class="h2" style="margin-top: 14px">Species identification guide</p>
-            <div class="cols-5 relative">
+            <div class="cols-2 relative">
               <span class="callout pin" style="left: -10px; top: -10px">3</span>
-              <div class="card small">
-                <span class="chip">F</span>
-                <p class="h3">Fox/badger tick</p>
-                <p class="italic muted">Ixodes canisuga</p>
-                <div class="line"></div>
-                <div class="line w70"></div>
+              <div
+                class="row"
+                style="align-items: flex-start; border-top: 1px solid #ccc; padding-top: 10px"
+              >
+                <span class="placeholder" style="width: 56px; height: 56px; border-radius: 50%"
+                  >tick</span
+                >
+                <div class="grow">
+                  <p class="h3">Fox/badger tick <span class="chip">F</span></p>
+                  <p class="italic muted">Ixodes canisuga</p>
+                  <div class="line w90"></div>
+                  <p class="small" style="color: #0f5f5b">Learn more ▾</p>
+                </div>
               </div>
-              <div class="card small">
-                <span class="chip">M</span>
-                <p class="h3">Marsh tick</p>
-                <p class="italic muted">Ixodes apronophorus</p>
-                <div class="line"></div>
-                <div class="line w70"></div>
+              <div
+                class="row"
+                style="align-items: flex-start; border-top: 1px solid #ccc; padding-top: 10px"
+              >
+                <span class="placeholder" style="width: 56px; height: 56px; border-radius: 50%"
+                  >tick</span
+                >
+                <div class="grow">
+                  <p class="h3">Marsh tick <span class="chip">M</span></p>
+                  <p class="italic muted">Ixodes apronophorus</p>
+                  <div class="line w70"></div>
+                  <p class="small" style="color: #0f5f5b">Learn more ▾</p>
+                </div>
               </div>
-              <div class="card small">
-                <span class="chip">P</span>
-                <p class="h3">Passerine tick</p>
-                <p class="italic muted">Ixodes frontalis</p>
-                <div class="line"></div>
-                <div class="line w70"></div>
+              <div
+                class="row"
+                style="align-items: flex-start; border-top: 1px solid #ccc; padding-top: 10px"
+              >
+                <span class="placeholder" style="width: 56px; height: 56px; border-radius: 50%"
+                  >tick</span
+                >
+                <div class="grow">
+                  <p class="h3">Passerine tick <span class="chip">P</span></p>
+                  <p class="italic muted">Ixodes frontalis</p>
+                  <div class="line w90"></div>
+                  <p class="small" style="color: #0f5f5b">Learn more ▾</p>
+                </div>
               </div>
-              <div class="card small">
-                <span class="chip">S</span>
-                <p class="h3">Southern rodent tick</p>
-                <p class="italic muted">Ixodes acuminatus</p>
-                <div class="line"></div>
-                <div class="line w70"></div>
-              </div>
-              <div class="card small">
-                <span class="chip">T</span>
-                <p class="h3">Tree-hole tick</p>
-                <p class="italic muted">Ixodes arboricola</p>
-                <div class="line"></div>
-                <div class="line w70"></div>
+              <div
+                class="row"
+                style="align-items: flex-start; border-top: 1px solid #ccc; padding-top: 10px"
+              >
+                <span class="placeholder" style="width: 56px; height: 56px; border-radius: 50%"
+                  >tick</span
+                >
+                <div class="grow">
+                  <p class="h3">Southern rodent tick <span class="chip">S</span></p>
+                  <p class="italic muted">Ixodes acuminatus</p>
+                  <div class="line w70"></div>
+                  <p class="small" style="color: #0f5f5b">Learn more ▾</p>
+                </div>
               </div>
             </div>
             <p class="h2" style="margin-top: 14px">Preventing tick bites</p>
-            <div class="cols-3">
-              <div class="card">
-                <p class="h3">Before you go out</p>
-                <div class="line"></div>
+            <div class="stack relative" style="padding-left: 22px">
+              <span class="callout pin" style="left: -10px; top: -10px">4</span>
+              <div class="row">
+                <span class="chip">1</span><b>Cover up before you go out</b
+                ><span class="grow line"></span>
               </div>
-              <div class="card">
-                <p class="h3">When you get back</p>
-                <div class="line"></div>
+              <div class="row">
+                <span class="chip">2</span><b>Check yourself when you get back</b
+                ><span class="grow line"></span>
               </div>
-              <div class="card">
-                <p class="h3">Removing a tick</p>
-                <div class="line"></div>
+              <div class="row">
+                <span class="chip">3</span><b>Check your pets</b><span class="grow line"></span>
               </div>
-              <div class="card">
-                <p class="h3">Protecting your pets</p>
-                <div class="line"></div>
+              <div class="row">
+                <span class="chip">4</span><b>Remove ticks quickly</b
+                ><span class="grow line"></span>
               </div>
-              <div class="card">
-                <p class="h3">When to get help</p>
-                <div class="line"></div>
-              </div>
-              <div class="card">
-                <p class="h3">Sources</p>
-                <div class="line"></div>
+              <div class="row">
+                <span class="chip">5</span><b>Know when to get help</b
+                ><span class="grow line"></span>
               </div>
             </div>
           </div>
@@ -736,8 +766,15 @@
           <li>
             <span class="callout">3</span>
             <span
-              >One card per species in the data: name, scientific name, how to recognise it, where
-              it lives and how often it was seen.</span
+              >The species as a list, each with a drawing beside it. Where it lives and its UK range
+              fold into "Learn more".</span
+            >
+          </li>
+          <li>
+            <span class="callout">4</span>
+            <span
+              >Prevention as five numbered steps, each a short checklist, instead of a grid of
+              cards.</span
             >
           </li>
         </ol>
@@ -876,12 +913,11 @@
             </div>
             <div class="page stack">
               <p class="h2">Tick sightings across the UK</p>
-              <div class="cols-2">
-                <div class="tile">Sightings<b>1,000</b></div>
-                <div class="tile">Cities<b>14</b></div>
-                <div class="tile">Species<b>5</b></div>
-                <div class="tile">Years<b>2012–24</b></div>
-              </div>
+              <div class="line w90"></div>
+              <p class="muted small">
+                In the data: 1,000 sightings across 14 cities and 5 species.
+              </p>
+              <div class="placeholder" style="height: 110px; border-radius: 30px">drawing</div>
               <span class="btn row"><span class="callout">1</span>Show filters (2 active)</span>
               <div class="map" style="height: 300px">
                 <svg viewBox="0 0 320 545"><use href="#uk-map" /></svg>

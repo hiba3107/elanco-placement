@@ -11,7 +11,7 @@ images below are screenshots of it.
 ## Principles behind the layout
 
 - **Answer the main question first.** The map, which shows where ticks are being seen, is the first
-  thing below the headline numbers. Detail comes on demand, in the city panel.
+  thing below a short welcome. Detail comes on demand, in the city panel.
 - **One column on phones, in the same order.** Nothing is hidden on a small screen; the filters and
   the navigation fold away behind a button instead.
 - **Every visual code has a text equivalent.** Severity is written in words as well as shown in
@@ -28,7 +28,7 @@ images below are screenshots of it.
 
 ## 3. Trends, seasons, species guide and prevention
 
-![The trend and area charts, the seasonal chart with its dropdowns, the species cards and prevention tips](3-insights.png)
+![The trend and area charts, the seasonal chart with its dropdowns, the illustrated species list and the prevention checklist](3-insights.png)
 
 ## 4. Report a sighting: error, warning and success
 
