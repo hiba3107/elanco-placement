@@ -10,6 +10,7 @@ import { initFilterPanel, setFilterDateRange } from "./filters/filterPanel.js";
 import { createSpeciesGuide } from "./guide/speciesGuide.js";
 import { createInsightsView } from "./insights/insightsView.js";
 import { createMapView } from "./map/mapView.js";
+import { initNearMe } from "./map/nearMe.js";
 import { initReportForm } from "./report/reportForm.js";
 import { createSeasonalView } from "./seasonal/seasonalView.js";
 import { filtersStore, selectedCityStore } from "./state.js";
@@ -90,7 +91,11 @@ function createViews(meta) {
   created.insights = createInsightsView();
   created.seasonal = createSeasonalView(meta);
   initReportForm(meta, { onSaved: () => created.panel.refreshReports() });
-
+  initNearMe(
+    document.getElementById("near-me-button"),
+    document.getElementById("near-me-status"),
+    meta.locations,
+  );
   filtersStore.subscribe(() => {
     created.map.load();
     created.insights.load();
