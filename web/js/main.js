@@ -15,6 +15,7 @@ import { initReportForm } from "./report/reportForm.js";
 import { createSeasonalView } from "./seasonal/seasonalView.js";
 import { filtersStore, selectedCityStore } from "./state.js";
 import { createDataBanner } from "./ui/dataBanner.js";
+import { initHeroVideo } from "./ui/heroVideo.js";
 import { initNavigation } from "./ui/navigation.js";
 import { renderOverview } from "./ui/overview.js";
 
@@ -96,6 +97,7 @@ function createViews(meta) {
     document.getElementById("near-me-status"),
     meta.locations,
   );
+
   filtersStore.subscribe(() => {
     created.map.load();
     created.insights.load();
@@ -154,5 +156,6 @@ async function checkServer() {
 }
 
 initNavigation();
+initHeroVideo(document.getElementById("hero-video"), document.getElementById("hero-video-toggle"));
 renderOverview(overview, null);
 checkServer();

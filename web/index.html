@@ -137,7 +137,7 @@
   <body class="bg-page font-sans text-ink antialiased">
     <a class="skip-link" href="#main">Skip to main content</a>
 
-    <header class="relative border-b border-line">
+    <header class="sticky top-0 z-[1200] border-b border-line bg-page">
       <div class="wrap flex items-center gap-4 py-3">
         <a href="#overview" class="mr-auto flex items-center gap-2.5 rounded-lg">
           <img src="images/logo.svg" alt="" class="h-10 w-10" width="40" height="40" />
@@ -187,34 +187,38 @@
     </noscript>
 
     <main id="main" tabindex="-1">
-      <section id="overview" aria-labelledby="overview-title">
-        <div
-          class="wrap grid items-center gap-6 pt-8 pb-4 sm:pt-12 md:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]"
+      <section id="overview" aria-labelledby="overview-title" class="hero">
+        <video
+          id="hero-video"
+          class="hero__video"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          poster="images/hero-dogs-poster.jpg"
+          aria-hidden="true"
         >
-          <div class="min-w-0">
-            <h1
-              id="overview-title"
-              class="text-4xl font-extrabold tracking-tight text-ink sm:text-5xl"
-            >
-              Tick sightings across the UK
-            </h1>
-            <p class="mt-4 max-w-xl text-xl text-ink-soft">
-              See where ticks have been spotted, which ones you might meet on a walk, and how to
-              keep your pets and family safe.
-            </p>
-            <p id="overview-stats" class="quiet-stats" hidden></p>
-            <div class="mt-6 flex flex-col gap-3 sm:flex-row">
-              <a class="btn-primary" href="#map">See the map</a>
-              <a class="btn-secondary" href="#report">Report a sighting</a>
-            </div>
+          <source src="images/hero-dogs.mp4" type="video/mp4" />
+        </video>
+        <div class="hero__shade" aria-hidden="true"></div>
+        <button id="hero-video-toggle" type="button" class="hero__toggle">Pause video</button>
+        <div class="wrap hero__content">
+          <h1
+            id="overview-title"
+            class="max-w-2xl text-4xl font-extrabold tracking-tight sm:text-6xl"
+          >
+            Tick sightings across the UK
+          </h1>
+          <p class="hero__intro mt-4 max-w-xl text-xl">
+            See where ticks have been spotted, which ones you might meet on a walk, and how to keep
+            your pets and family safe.
+          </p>
+          <p id="overview-stats" class="quiet-stats" hidden></p>
+          <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+            <a class="btn-primary" href="#map-section">See the map</a>
+            <a class="btn-secondary" href="#report">Report a sighting</a>
           </div>
-          <img
-            src="images/hero-dogs.jpg"
-            alt="Two young dogs, a corgi and a border collie, playing in autumn leaves"
-            width="520"
-            height="360"
-            class="mx-auto w-full max-w-xs sm:max-w-sm md:max-w-none aspect-[13/9] rounded-3xl object-cover shadow-sm"
-          />
         </div>
       </section>
 
@@ -751,8 +755,8 @@
           task.
         </p>
         <p id="footer-data-source">
-          Sighting data: Elanco tick sightings API. Map © OpenStreetMap contributors. Drawings made
-          for this site.
+          Sighting data: Elanco tick sightings API. Map © OpenStreetMap contributors. Hero video
+          from Pexels. Drawings made for this site.
         </p>
       </div>
     </footer>
