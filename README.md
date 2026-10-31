@@ -433,6 +433,7 @@ I led the development process, from writing the specification and choosing the t
 - Fonts: [Nunito](https://github.com/googlefonts/nunito) and
   [Source Sans 3](https://github.com/adobe-fonts/source-sans), under the SIL Open Font License.
 - Drawings: original, made for this project. See [`web/images/CREDITS.md`](web/images/CREDITS.md).
+- Hero video: by Brixiv on Pexels, under the Pexels License.
 - Species notes: the UK Health Security Agency's
   [tick species profiles](https://www.gov.uk/guidance/tick-species-profiles) and published research.
 - Prevention advice: the [NHS](https://www.nhs.uk/conditions/lyme-disease/) and the UK Health

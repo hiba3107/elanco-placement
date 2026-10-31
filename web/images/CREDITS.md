@@ -5,12 +5,13 @@ add one. Font credits are in [`web/fonts/`](../fonts/).
 
 ## Drawings
 
-| File             | What it shows                                   | Made by                            | Licence              |
-| ---------------- | ----------------------------------------------- | ---------------------------------- | -------------------- |
-| `logo.svg`       | A paw print with a leaf, the site's logo        | Original drawing for Tick Tracker  | Part of this project |
-| `../favicon.svg` | The logo as the browser tab icon                | Original drawing for Tick Tracker  | Part of this project |
-| `hero-dog.svg`   | A dog sitting by a tree, at the top of the page | Original drawing for Tick Tracker  | Part of this project |
-| `species/*.svg`  | One stylised drawing for each of the 5 species  | Original drawings for Tick Tracker | Part of this project |
+| File                   | What it shows                                             | Made by                            | Licence                     |
+| ---------------------- | --------------------------------------------------------- | ---------------------------------- | --------------------------- |
+| `logo.svg`             | A paw print with a leaf, the site's logo                  | Original drawing for Tick Tracker  | Part of this project        |
+| `../favicon.svg`       | The logo as the browser tab icon                          | Original drawing for Tick Tracker  | Part of this project        |
+| `hero-dogs.mp4`        | Looping video of two dogs playing, at the top of the page | Video by Brixiv on Pexels          | Pexels License, free to use |
+| `hero-dogs-poster.jpg` | A still frame from that video, shown while it loads       | Taken from the video above         | Pexels License, free to use |
+| `species/*.svg`        | One stylised drawing for each of the 5 species            | Original drawings for Tick Tracker | Part of this project        |
 
 The species drawings are simplified and not to scale. They are not meant for identifying a tick.
 
