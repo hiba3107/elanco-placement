@@ -1,5 +1,6 @@
 const { describe, it } = require("node:test");
 const assert = require("node:assert/strict");
+const path = require("node:path");
 
 const { loadConfig } = require("../src/config");
 
@@ -51,7 +52,10 @@ describe("loadConfig data settings", () => {
   });
 
   it("resolves DATA_DIR to an absolute path", () => {
-    assert.equal(loadConfig({ DATA_DIR: "/srv/tick-data" }).dataDir, "/srv/tick-data");
+    assert.equal(
+      loadConfig({ DATA_DIR: "/srv/tick-data" }).dataDir,
+      path.resolve("/srv/tick-data"),
+    );
   });
 
   it("needs at least one attempt and a timeout above zero", () => {
