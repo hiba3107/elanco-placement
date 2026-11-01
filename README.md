@@ -4,6 +4,8 @@
 
 By **Hibatallah Maatallah**, BEng (Hons) Software Engineering, Liverpool John Moores University.
 
+**Live site:** <https://tick-tracker-9hdw.onrender.com> (free hosting, so the first visit can take up to a minute to wake up).
+
 Tick Tracker turns Elanco's tick sightings data into a map, charts and practical guidance, and lets
 anyone report a sighting of their own. An Express API fetches Elanco's data once, cleans it, works
 out how active each city is, and serves everything the page needs. The page is plain HTML, CSS and
@@ -23,7 +25,7 @@ JavaScript with Leaflet, Chart.js and Tailwind.
 - [Security and privacy](#security-and-privacy)
 - [API](#api)
 - [Project structure](#project-structure)
-- [How I used AI](#how-i-used-ai)
+- [Development approach](#development-approach)
 - [What I would do differently with more time](#what-i-would-do-differently-with-more-time)
 - [Credits](#credits)
 
@@ -114,9 +116,13 @@ All settings are optional environment variables, checked when the server starts.
 
 ### Screenshots
 
-> **TODO (Hibatallah):** add screenshots once it is running on your machine with Elanco's live data:
-> the map with a city's panel open, the trends and seasonal charts, the species guide, the report form
-> showing an error summary and then the success message, and the page on a phone.
+![The top of the page, with the video behind the title](docs/screenshots/home.png)
+
+![The map with the Liverpool panel open](docs/screenshots/map.png)
+
+![The report form showing its error summary](docs/screenshots/form-errors.png)
+
+![The page on a phone](docs/screenshots/phone.png)
 
 ## Check it
 
@@ -142,7 +148,7 @@ npm run test:browser
 way a trackpad pinch does and checking every chart still redraws. It needs a browser for Playwright
 the first time: `npx playwright install chromium`.
 
-There are **300 tests**, all run with Node's built-in test runner. None of them touch the network:
+There are **305 tests**, all run with Node's built-in test runner. None of them touch the network:
 they use small fixtures, including one of 33 deliberately broken records, each labelled with what is
 wrong with it. Coverage of the API's source code is about 99% of lines and 96% of branches, and every
 line of the cleaning, filtering, severity and aggregation code is covered.
@@ -402,7 +408,7 @@ api/
     middleware/        errors, 404s, "data not ready", security headers, rate limit
     lib/               dates, retry, name matching, JSON files, collections
     reference/         the 14 cities and the 5 species
-  test/                300 tests, fixtures and helpers (web/ holds the page's tests)
+  test/                305 tests, fixtures and helpers (web/ holds the page's tests)
   data/                created at runtime: snapshot, reports and photos (not in git)
 web/
   index.html           the page
@@ -421,7 +427,13 @@ I led the development process, from writing the specification and choosing the t
 
 ## What I would do differently with more time
 
-> **TODO (Hibatallah):** your own reflection, in your own words. The
+Looking back, these are the things I would change or add with more time:
+
+- **Proper storage.** Reports are saved to a JSON file. It is simple, but it only works for one server, and on the free live host the reports are wiped when it restarts. I would use a database such as PostgreSQL, and cloud storage for photos.
+- **Elanco's stack.** I chose plain JavaScript so I could finish and explain everything in the time I had. Next, I would rebuild the frontend in TypeScript and Next.js to match the tools Elanco use.
+- **Checking reports.** Community reports are shown as unverified. I would add a login so an admin could check reports before they appear.
+- **A more meaningful severity.** My rule only compares cities with each other. With real data, I would work with vets to set levels based on actual risk.
+- **Testing on real devices earlier.** I found the chart bug by zooming on my own laptop near the end. Next time I would test on a phone and a laptop from the start.
 > [architecture document](docs/architecture.md#with-more-time) lists the technical improvements
 > that would come next, which you can draw on.
 
