@@ -1,5 +1,5 @@
 /*
- * Nexvia Group: page behaviour.
+ * Nexvia Groupe: page behaviour.
  *
  * Builds the menus, service explorer, training programs, value sheet and search from
  * NEXVIA_CONTENT (js/content.js), and runs the header, the hero video and the contact form.

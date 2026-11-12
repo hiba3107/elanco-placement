@@ -1,5 +1,5 @@
 /*
- * Nexvia Group: site content.
+ * Nexvia Groupe: site content.
  *
  * Everything the page lists (services, training programs, value proposition) lives here,
  * taken from the company presentation. Edit the text in this file and the page, the menus,
@@ -337,7 +337,7 @@ globalThis.NEXVIA_CONTENT = {
       /* Who does what at each stage of the test. The vendor performs the FAT. */
       flow: {
         caption: "FAT workflow: who does what at each stage",
-        columns: ["Contractor / vendor stage", "Client", "Nexvia Group"],
+        columns: ["Contractor / vendor stage", "Client", "Nexvia Groupe"],
         steps: [
           ["Manufacturing", "Witness", "Witness"],
           ["Submit documents", "Review document", "Verify documents"],
@@ -528,7 +528,7 @@ globalThis.NEXVIA_CONTENT = {
     },
   ],
 
-  /* "Why choose Nexvia Group?": one row per reason. */
+  /* "Why choose Nexvia Groupe?": one row per reason. */
   values: [
     {
       id: "technical-excellence",
@@ -573,7 +573,7 @@ globalThis.NEXVIA_CONTENT = {
     {
       id: "specialized-expertise",
       title: "Specialized Industrial Expertise",
-      intro: "Nexvia Group possesses specialized expertise in:",
+      intro: "Nexvia Groupe possesses specialized expertise in:",
       items: [
         "Gas Turbine Control Systems",
         "Centrifugal Gas Compressor Control Systems",
@@ -617,7 +617,7 @@ globalThis.NEXVIA_CONTENT = {
       id: "innovation-cybersecurity",
       title: "Innovation & Cybersecurity",
       intro:
-        "As industrial operations become increasingly digital, Nexvia Group helps clients secure and modernize critical assets through:",
+        "As industrial operations become increasingly digital, Nexvia Groupe helps clients secure and modernize critical assets through:",
       items: [
         "OT Cybersecurity Solutions",
         "Industrial Network Security",

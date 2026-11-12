@@ -1,6 +1,6 @@
-# Nexvia Group website
+# Nexvia Groupe website
 
-Single-page company site for Nexvia Group. Plain HTML, CSS and JavaScript: no build step and
+Single-page company site for Nexvia Groupe. Plain HTML, CSS and JavaScript: no build step and
 no dependencies.
 
 ## Run it
@@ -50,6 +50,6 @@ Cloudflare Pages or GitHub Pages all work as they are. `index.html` must sit at 
 
 ## Credits
 
-- Logo, photos and hero footage: supplied by Nexvia Group.
+- Logo, photos and hero footage: supplied by Nexvia Groupe.
 - Fonts: Archivo and IBM Plex Sans / Mono, under the SIL Open Font License
   (`assets/fonts/OFL-*.txt`).
