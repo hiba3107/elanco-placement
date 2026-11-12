@@ -922,6 +922,7 @@
       message.value = `I would like to know more about your ${note} training program.`;
     }
     ready.hidden = true;
+    $("#form-sent").hidden = true;
     form.hidden = false;
   }
 
@@ -972,9 +973,21 @@
       });
     });
 
+    const sent = $("#form-sent");
+    const submit = $("#form-submit");
+    const submitLabel = $("#form-submit-label");
+
+    function show(panel) {
+      form.hidden = true;
+      panel.hidden = false;
+      panel.focus({ preventScroll: true });
+      panel.scrollIntoView({ block: "nearest" });
+    }
+
     /*
-     * There is no server behind this page, so the form cannot send anything itself.
-     * It checks the fields and lays the message out as an email the visitor sends.
+     * The message goes to Netlify Forms, which stores it and emails it on.
+     * If that fails (for example when the page is opened somewhere other than Netlify),
+     * the message is laid out as an email the visitor can send themselves.
      */
     form.addEventListener("submit", (event) => {
       event.preventDefault();
@@ -984,6 +997,28 @@
         return;
       }
 
+      submit.disabled = true;
+      submitLabel.textContent = "Sending…";
+      const data = new URLSearchParams(new FormData(form)).toString();
+      window
+        .fetch("/", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: data,
+        })
+        .then((response) => {
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          form.reset();
+          show(sent);
+        })
+        .catch(() => showFallback())
+        .finally(() => {
+          submit.disabled = false;
+          submitLabel.textContent = "Send message";
+        });
+    });
+
+    function showFallback() {
       const value = (name) => field(name).value.trim();
       const to = content.contactEmail;
       const subject = `Website enquiry: ${value("service")} (${value("name")})`;
@@ -1001,11 +1036,15 @@
 
       mailto.href = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       preview.textContent = `To: ${to}\nSubject: ${subject}\n\n${body}`;
+      $("#ready-to").textContent = to;
       status.textContent = "";
-      form.hidden = true;
-      ready.hidden = false;
-      ready.focus({ preventScroll: true });
-      ready.scrollIntoView({ block: "nearest" });
+      show(ready);
+    }
+
+    $("#sent-new").addEventListener("click", () => {
+      sent.hidden = true;
+      form.hidden = false;
+      field("name").focus();
     });
 
     $("#ready-copy").addEventListener("click", () => {

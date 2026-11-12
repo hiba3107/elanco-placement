@@ -6,7 +6,8 @@
  * the search and the contact form all update together. main.js turns it into HTML.
  */
 globalThis.NEXVIA_CONTENT = {
-  contactEmail: "info@nexviagroupe.com",
+  /* Where the contact form sends to if the online form service is not available. */
+  contactEmail: "maatallah.djafer@gmail.com",
 
   /* The eight overview cards. `service` opens a service line below; `section` jumps to a section. */
   disciplines: [

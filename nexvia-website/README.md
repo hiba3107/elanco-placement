@@ -39,10 +39,9 @@ ffmpeg -i source.mp4 -i source.mp4 -filter_complex "[0:v]trim=start=0.9,setpts=P
 
 ## Contact form
 
-The site has no server, so the form cannot send mail by itself. It checks the fields, lays the
-message out as an email to `info@nexviagroupe.com`, and the visitor sends it from their own
-email app (or copies it). To send straight from the page, point the submit handler in
-`initContact()` (`js/main.js`) at a form service or your own endpoint.
+The form uses Netlify Forms: messages are stored under Forms in the Netlify dashboard and
+emailed on by a form notification (set the address in Netlify). If the post fails, the page
+lays the message out as an email to the `contactEmail` address in `js/content.js` instead.
 
 ## Publishing
 

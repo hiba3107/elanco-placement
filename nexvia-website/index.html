@@ -679,7 +679,21 @@
           </div>
 
           <div class="contact__form">
-            <form class="form" id="contact-form" novalidate>
+            <form
+              class="form"
+              id="contact-form"
+              name="contact"
+              method="POST"
+              data-netlify="true"
+              netlify-honeypot="bot-field"
+              novalidate
+            >
+              <input type="hidden" name="form-name" value="contact" />
+              <p class="visually-hidden" aria-hidden="true">
+                <label
+                  >Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"
+                /></label>
+              </p>
               <h3 class="subtitle">Send us a message</h3>
               <div class="form__grid">
                 <div class="field">
@@ -719,22 +733,29 @@
                 </div>
               </div>
               <div class="form__foot">
-                <button class="btn btn--primary" type="submit">
-                  Prepare email
+                <button class="btn btn--primary" type="submit" id="form-submit">
+                  <span id="form-submit-label">Send message</span>
                   <svg class="icon icon--sm" aria-hidden="true"><use href="#i-arrow-right" /></svg>
                 </button>
-                <p class="form__note">
-                  This prepares an email to info@nexviagroupe.com. Nothing is sent until you send it
-                  from your own email app.
-                </p>
+                <p class="form__note">Our team replies by email, usually within one working day.</p>
               </div>
             </form>
 
+            <div class="ready" id="form-sent" tabindex="-1" hidden>
+              <h3 class="subtitle">Thank you, your message has been sent</h3>
+              <p>Our team will get back to you by email as soon as possible.</p>
+              <div class="ready__actions">
+                <button class="btn btn--outline" type="button" id="sent-new">
+                  Send another message
+                </button>
+              </div>
+            </div>
+
             <div class="ready" id="form-ready" tabindex="-1" hidden>
-              <h3 class="subtitle">Your message is ready to send</h3>
+              <h3 class="subtitle">We couldn't send your message from this page</h3>
               <p>
                 Open it in your email app, or copy it and send it to
-                <strong>info@nexviagroupe.com</strong>.
+                <strong id="ready-to"></strong>.
               </p>
               <pre class="ready__preview" id="ready-preview" tabindex="0"></pre>
               <div class="ready__actions">
