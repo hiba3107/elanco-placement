@@ -1066,8 +1066,7 @@ html.nav-open {
 
 /* In the single-column layout the photos stay near their real size instead of stretching. */
 .about__media,
-.training__media,
-.contact__photo {
+.training__media {
   max-width: 600px;
 }
 
@@ -2024,17 +2023,6 @@ html.nav-open {
 .copy.is-done {
   border-color: var(--ok);
   color: var(--ok);
-}
-
-.contact__photo {
-  margin-top: 32px;
-}
-
-.contact__photo img {
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-  object-position: 50% 6%;
 }
 
 .contact__form {
